@@ -5,6 +5,7 @@
 >
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
+  {{ 'component-product-details-accordions.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
@@ -312,6 +313,8 @@
               {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
             {%- when 'buy_buttons' -%}
               {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
+            {%- when 'details_accordions' -%}
+              {% render 'product-details-accordions', block: block, section: section, product: product %}
             {%- when 'rating' -%}
               {%- if product.metafields.reviews.rating.value != blank -%}
                 {% liquid
@@ -746,6 +749,26 @@
       "type": "description",
       "name": "t:sections.main-product.blocks.description.name",
       "limit": 1
+    },
+    {
+      "type": "details_accordions",
+      "name": "t:sections.main-product.blocks.details_accordions.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "availability_hint",
+          "label": "t:sections.main-product.blocks.details_accordions.settings.availability_hint.label",
+          "default": "Select color/print and size to see store pickup availability.",
+          "info": "t:sections.main-product.blocks.details_accordions.settings.availability_hint.info"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_first",
+          "label": "t:sections.main-product.blocks.details_accordions.settings.open_first.label",
+          "default": false
+        }
+      ]
     },
     {
       "type": "share",
@@ -1979,8 +2002,24 @@
           "label": "t:sections.main-product.settings.gallery_layout.options__4.label"
         }
       ],
-      "default": "stacked",
+      "default": "thumbnail_slider",
       "label": "t:sections.main-product.settings.gallery_layout.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_gallery_autoplay",
+      "default": true,
+      "label": "Rotação automática da galeria"
+    },
+    {
+      "type": "range",
+      "id": "gallery_autoplay_speed",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Velocidade da rotação automática",
+      "default": 4
     },
     {
       "type": "select",

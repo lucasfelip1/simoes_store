@@ -166,7 +166,17 @@
       "inventory_low_stock_show_count": "Estoque baixo: {{ quantity }} restante(s)",
       "inventory_out_of_stock": "Fora de estoque",
       "inventory_out_of_stock_continue_selling": "Em estoque",
-      "sku": "SKU"
+      "sku": "SKU",
+      "details_accordions": {
+        "key_features": "Key Features",
+        "product_description": "Product Description",
+        "whats_in_the_box": "What's In The Box",
+        "who_is_it_for": "Who Is It For",
+        "warranty_guarantee": "Warranty & Guarantee",
+        "shipping_returns": "Shipping & Returns",
+        "why_it_works": "Why it works",
+        "how_to_use": "How to Use"
+      }
     },
     "modal": {
       "label": "Galeria de mídia"

@@ -1640,6 +1640,18 @@
             }
           }
         },
+        "details_accordions": {
+          "name": "Detalhes do produto (accordion)",
+          "settings": {
+            "availability_hint": {
+              "label": "Texto de dica",
+              "info": "Texto opcional exibido acima da lista de accordions."
+            },
+            "open_first": {
+              "label": "Abrir a primeira linha por padrão"
+            }
+          }
+        },
         "collapsible_tab": {
           "name": "Linha recolhível",
           "settings": {

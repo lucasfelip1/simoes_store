@@ -41,6 +41,19 @@
   if is_duplicate
     assign id_append = '-duplicate'
   endif
+
+  if section.settings.enable_gallery_autoplay == nil
+    assign gallery_autoplay = true
+  else
+    assign gallery_autoplay = section.settings.enable_gallery_autoplay
+  endif
+
+  assign show_thumbnail_nav = false
+  if media_count > 1
+    if section.settings.gallery_layout contains 'thumbnail' or section.settings.mobile_thumbnails == 'show'
+      assign show_thumbnail_nav = true
+    endif
+  endif
 -%}
 
 <media-gallery
@@ -51,8 +64,12 @@
   {% endif %}
   aria-label="{{ 'products.product.media.gallery_viewer' | t }}"
   data-desktop-layout="{{ section.settings.gallery_layout }}"
+  data-enable-autoplay="{% if gallery_autoplay %}true{% else %}false{% endif %}"
+  data-autoplay-speed="{{ section.settings.gallery_autoplay_speed }}"
+  data-media-count="{{ media_count }}"
 >
   <div id="GalleryStatus-{{ section.id }}" class="visually-hidden" role="status"></div>
+  <div class="product-gallery__viewer-wrap">
   <slider-component id="GalleryViewer-{{ section.id }}{{ id_append }}" class="slider-mobile-gutter">
     {%- unless is_duplicate -%}
       <a class="skip-to-content-link button visually-hidden quick-add-hidden" href="#ProductInfo-{{ section.id }}">
@@ -120,33 +137,107 @@
         {%- endunless -%}
       {%- endfor -%}
     </ul>
-    {%- unless is_duplicate -%}
-      <div class="slider-buttons no-js-hidden quick-add-hidden{% if hide_mobile_slider %} small-hide{% endif %}">
+  </slider-component>
+
+  {%- unless is_duplicate -%}
+    {%- if media_count > 1 -%}
+      <div class="product-gallery__arrows no-js-hidden quick-add-hidden">
         <button
           type="button"
-          class="slider-button slider-button--prev"
-          name="previous"
+          class="product-gallery__arrow product-gallery__arrow--prev"
+          data-gallery-nav="previous"
           aria-label="{{ 'general.slider.previous_slide' | t }}"
         >
           {% render 'icon-caret' %}
         </button>
-        <div class="slider-counter caption">
-          <span class="slider-counter--current">1</span>
-          <span aria-hidden="true"> / </span>
-          <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
-          <span class="slider-counter--total">{{ media_count }}</span>
-        </div>
         <button
           type="button"
-          class="slider-button slider-button--next"
-          name="next"
+          class="product-gallery__arrow product-gallery__arrow--next"
+          data-gallery-nav="next"
           aria-label="{{ 'general.slider.next_slide' | t }}"
         >
           {% render 'icon-caret' %}
         </button>
       </div>
-    {%- endunless -%}
-  </slider-component>
+    {%- endif -%}
+    {%- if media_count > 1 and gallery_autoplay and show_thumbnail_nav -%}
+      <button
+        type="button"
+        class="product-gallery__autoplay product-gallery__autoplay--overlay slider-button no-js-hidden quick-add-hidden"
+        aria-label="{{ 'sections.slideshow.pause_slideshow' | t }}"
+      >
+        {%- render 'icon-pause' -%}
+        {%- render 'icon-play' -%}
+      </button>
+    {%- endif -%}
+  {%- endunless -%}
+  </div>
+
+  {%- unless is_duplicate -%}
+    {%- if media_count > 1 and show_thumbnail_nav == false -%}
+      <div class="product-gallery__controls no-js-hidden quick-add-hidden">
+        <div class="product-gallery__nav">
+          <button
+            type="button"
+            class="slider-button slider-button--prev"
+            data-gallery-nav="previous"
+            aria-label="{{ 'general.slider.previous_slide' | t }}"
+          >
+            {% render 'icon-caret' %}
+          </button>
+          <div class="slider-counter caption">
+            <span class="slider-counter--current">1</span>
+            <span aria-hidden="true"> / </span>
+            <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
+            <span class="slider-counter--total">{{ media_count }}</span>
+          </div>
+          <button
+            type="button"
+            class="slider-button slider-button--next"
+            data-gallery-nav="next"
+            aria-label="{{ 'general.slider.next_slide' | t }}"
+          >
+            {% render 'icon-caret' %}
+          </button>
+        </div>
+        <div class="product-gallery__dots" role="tablist" aria-label="{{ 'products.product.media.gallery_viewer' | t }}">
+          {%- assign dot_index = 0 -%}
+          {%- if product.selected_or_first_available_variant.featured_media != null -%}
+            {%- assign dot_index = dot_index | plus: 1 -%}
+            <button
+              type="button"
+              class="product-gallery__dot{% if dot_index == 1 %} product-gallery__dot--active{% endif %}"
+              data-target="{{ section.id }}-{{ product.selected_or_first_available_variant.featured_media.id }}"
+              aria-label="{{ 'products.product.media.load_image' | t: index: dot_index }}"
+              {% if dot_index == 1 %}aria-current="true"{% endif %}
+            ></button>
+          {%- endif -%}
+          {%- for media in product.media -%}
+            {%- unless media.id == product.selected_or_first_available_variant.featured_media.id -%}
+              {%- assign dot_index = dot_index | plus: 1 -%}
+              <button
+                type="button"
+                class="product-gallery__dot{% if product.selected_or_first_available_variant.featured_media == null and dot_index == 1 %} product-gallery__dot--active{% endif %}"
+                data-target="{{ section.id }}-{{ media.id }}"
+                aria-label="{{ 'products.product.media.load_image' | t: index: dot_index }}"
+                {% if product.selected_or_first_available_variant.featured_media == null and dot_index == 1 %}aria-current="true"{% endif %}
+              ></button>
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+        {%- if gallery_autoplay -%}
+          <button
+            type="button"
+            class="product-gallery__autoplay slider-button"
+            aria-label="{{ 'sections.slideshow.pause_slideshow' | t }}"
+          >
+            {%- render 'icon-pause' -%}
+            {%- render 'icon-play' -%}
+          </button>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  {%- endunless -%}
   {%- if first_3d_model -%}
     <button
       class="button button--full-width product__xr-button"

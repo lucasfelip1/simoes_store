@@ -1,0 +1,38 @@
+{% comment %}
+  Renders one product details accordion row when metafield content exists.
+
+  Accepts:
+  - metafield: {Object} Product metafield
+  - title: {String} Accordion heading
+  - icon: {String} Icon name for icon-accordion snippet
+  - section_id: {String} Section ID for unique element IDs
+  - item_id: {String} Unique slug for this row
+  - open: {Boolean} Whether details starts open
+{% endcomment %}
+
+{%- if metafield != blank -%}
+  <div class="product-details-accordions__item accordion">
+    <details
+      id="Details-product-details-{{ item_id }}-{{ section_id }}"
+      {% if open %}
+        open
+      {% endif %}
+    >
+      <summary>
+        <div class="summary__title">
+          {% render 'icon-accordion', icon: icon %}
+          <h2 class="h4 accordion__title product-details-accordions__title">
+            {{ title }}
+          </h2>
+        </div>
+        {% render 'icon-caret' %}
+      </summary>
+      <div
+        class="accordion__content rte product-details-accordions__content"
+        id="ProductDetailsAccordion-{{ item_id }}-{{ section_id }}"
+      >
+        {{ metafield | metafield_tag }}
+      </div>
+    </details>
+  </div>
+{%- endif -%}

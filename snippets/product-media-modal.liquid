@@ -26,6 +26,37 @@
       {% render 'icon-close' %}
     </button>
 
+    <button
+      type="button"
+      class="product-media-modal__nav product-media-modal__nav--prev slider-button"
+      aria-label="{{ 'general.slider.previous_slide' | t }}"
+      hidden
+    >
+      {% render 'icon-caret' %}
+    </button>
+
+    <button
+      type="button"
+      class="product-media-modal__nav product-media-modal__nav--next slider-button"
+      aria-label="{{ 'general.slider.next_slide' | t }}"
+      hidden
+    >
+      {% render 'icon-caret' %}
+    </button>
+
+    <div class="product-media-modal__counter caption" aria-live="polite">
+      <span class="product-media-modal__counter--current">1</span>
+      <span aria-hidden="true"> / </span>
+      <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
+      <span class="product-media-modal__counter--total">{{ product.media.size }}</span>
+    </div>
+
+    <div class="product-media-modal__zoom-toolbar" hidden>
+      <button type="button" class="product-media-modal__zoom-btn" data-zoom-action="out" aria-label="Diminuir zoom">−</button>
+      <button type="button" class="product-media-modal__zoom-btn" data-zoom-action="reset" aria-label="Redefinir zoom">100%</button>
+      <button type="button" class="product-media-modal__zoom-btn" data-zoom-action="in" aria-label="Aumentar zoom">+</button>
+    </div>
+
     <div
       class="product-media-modal__content color-background-1 gradient"
       role="document"

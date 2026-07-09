@@ -2012,6 +2012,18 @@
             }
           }
         },
+        "details_accordions": {
+          "name": "Product details accordions",
+          "settings": {
+            "availability_hint": {
+              "label": "Hint text",
+              "info": "Optional text shown above the accordion list."
+            },
+            "open_first": {
+              "label": "Open first row by default"
+            }
+          }
+        },
         "collapsible_tab": {
           "name": "Collapsible row",
           "settings": {

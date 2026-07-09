@@ -51,7 +51,7 @@
 
 <div
   class="product-media-container media-type-{{ media.media_type }} media-fit-{{ media_fit }} global-media-settings gradient{% if constrain_to_viewport %} constrain-height{% endif %}"
-  style="--ratio: {{ media.aspect_ratio | default: 1.0 }}; --preview-ratio: {{ media.preview_image.aspect_ratio | default: 1.0 }};"
+  style="--ratio: {{ media.aspect_ratio | default: 1.0 }}; --preview-ratio: {{ media.preview_image.aspect_ratio | default: 1.0 }}; --aspect-ratio: {{ media.aspect_ratio | default: 1.0 }};"
 >
   <noscript>
     {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
@@ -106,7 +106,9 @@
         class: image_class,
         loading: lazy,
         sizes: sizes,
-        widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
+        widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946',
+        width: media.preview_image.width,
+        height: media.preview_image.height
       }}
     </div>
     <button class="product__media-toggle quick-add-hidden product__media-zoom-{{ section.settings.image_zoom }}" type="button" aria-haspopup="dialog" data-media-id="{{ media.id }}">
@@ -149,7 +151,7 @@
             echo media | external_video_url: autoplay: true, loop: loop | external_video_tag: class: video_class, loading: "lazy"
           endif
         when 'video'
-          echo media | media_tag: image_size: "2048x", autoplay: true, loop: loop, controls: true, preload: "none"
+          echo media | media_tag: image_size: "2048x", autoplay: true, muted: true, loop: loop, controls: true, preload: "none"
         when 'model'
           echo media | media_tag: image_size: "2048x", toggleable: true
         endcase
