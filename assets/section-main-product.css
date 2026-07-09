@@ -351,6 +351,24 @@ a.product__text {
   display: none;
 }
 
+.product-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0 0;
+  padding: 0;
+}
+
+.product-tags__item {
+  margin: 0;
+}
+
+.product-tags__badge {
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0.04rem;
+}
+
 .product__title + .product__text.caption-with-letter-spacing {
   margin-top: -1.5rem;
 }
