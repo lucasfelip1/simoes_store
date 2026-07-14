@@ -1,0 +1,26 @@
+{% comment %}
+  Static star rating for Guard Labs sample PDP.
+  Accepts: block
+{% endcomment %}
+
+{%- liquid
+  assign rating = block.settings.rating | default: 4.5
+  assign review_count = block.settings.review_count | default: 22
+  assign full_stars = rating | floor
+  assign next_star = full_stars | plus: 1
+-%}
+
+<div class="guard-rating" {{ block.shopify_attributes }}>
+  <div class="guard-rating__stars" aria-hidden="true">
+    {%- for i in (1..5) -%}
+      {%- if i <= full_stars -%}
+        <svg viewBox="0 0 20 20"><path d="M10 1.5l2.5 5.1 5.6.8-4 3.9.9 5.6L10 14.3 5 16.9l.9-5.6-4-3.9 5.6-.8L10 1.5z"/></svg>
+      {%- elsif i == next_star -%}
+        <svg class="is-empty" viewBox="0 0 20 20"><path d="M10 1.5l2.5 5.1 5.6.8-4 3.9.9 5.6L10 14.3 5 16.9l.9-5.6-4-3.9 5.6-.8L10 1.5z"/></svg>
+      {%- else -%}
+        <svg class="is-empty" viewBox="0 0 20 20"><path d="M10 1.5l2.5 5.1 5.6.8-4 3.9.9 5.6L10 14.3 5 16.9l.9-5.6-4-3.9 5.6-.8L10 1.5z"/></svg>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+  <p class="guard-rating__text">{{ rating }} ({{ review_count }} reviews)</p>
+</div>

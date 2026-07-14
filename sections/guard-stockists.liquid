@@ -1,0 +1,193 @@
+{{ 'guard-labs-pdp.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign show_stockists = section.settings.show_stockists
+  if product.metafields.custom.available_at_shaver_shop == false
+    assign show_stockists = false
+  endif
+  if product.metafields.custom.available_at_shaver_shop == true
+    assign show_stockists = true
+  endif
+-%}
+
+{%- if show_stockists -%}
+  <section class="guard-section guard-stockists" id="GuardStockists-{{ section.id }}">
+    {%- comment -%} Mobile list (light) {%- endcomment -%}
+    <div class="guard-stockists--mobile-list">
+      <h2 class="guard-section__heading">{{ section.settings.list_heading | default: 'Our Stockists' }}</h2>
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'stockist' -%}
+          <div class="guard-stockist" {{ block.shopify_attributes }}>
+            <p class="guard-stockist__name">{{ block.settings.name }}</p>
+            <span class="guard-stockist__distance">{{ block.settings.distance }}</span>
+            <p class="guard-stockist__address">{{ block.settings.address }}</p>
+            <div class="guard-stockist__actions">
+              <a class="guard-btn" href="{{ block.settings.directions_url | default: '#' }}" target="_blank" rel="noopener">
+                Get Directions
+              </a>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+      <div class="guard-stockists__map" style="margin-top:2.4rem;min-height:24rem;border-radius:10px;overflow:hidden;">
+        {%- if section.settings.map_image != blank -%}
+          {{ section.settings.map_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '400, 700, 900' }}
+        {%- else -%}
+          <img
+            src="{{ 'guard-map.png' | asset_url }}"
+            alt="Stockist map"
+            width="390"
+            height="280"
+            loading="lazy"
+            style="width:100%;height:24rem;object-fit:cover;"
+          >
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} Desktop 2-col {%- endcomment -%}
+    <div class="guard-stockists__grid guard-stockists__desktop-only">
+      <div class="guard-stockists__map">
+        {%- if section.settings.map_image != blank -%}
+          {{ section.settings.map_image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '750, 1100, 1400' }}
+        {%- else -%}
+          <img
+            class="guard-stockists__map-img"
+            src="{{ 'guard-map.png' | asset_url }}"
+            alt="Stockist map"
+            width="720"
+            height="650"
+            loading="lazy"
+            style="width:100%;height:100%;object-fit:cover;"
+          >
+        {%- endif -%}
+      </div>
+      <div class="guard-stockists__panel">
+        <h2 class="guard-section__heading">{{ section.settings.heading | default: 'Find a Stockist' }}</h2>
+        <form class="guard-stockists__form" action="#" method="get" onsubmit="return false;">
+          <label for="GuardPostcode-{{ section.id }}">Enter your postcode</label>
+          <input
+            id="GuardPostcode-{{ section.id }}"
+            type="text"
+            name="postcode"
+            placeholder="Postcode"
+            inputmode="numeric"
+            autocomplete="postal-code"
+          >
+          <button type="submit" class="guard-btn">Enter</button>
+        </form>
+        <h3 class="guard-stockists__list-title">{{ section.settings.list_heading | default: 'Our Stockists' }}</h3>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'stockist' -%}
+            <div class="guard-stockist" {{ block.shopify_attributes }}>
+              <p class="guard-stockist__name">{{ block.settings.name }}</p>
+              <span class="guard-stockist__distance">{{ block.settings.distance }}</span>
+              <p class="guard-stockist__address">{{ block.settings.address }}</p>
+              <div class="guard-stockist__actions">
+                <a class="guard-btn" href="{{ block.settings.directions_url | default: '#' }}" target="_blank" rel="noopener">
+                  Get Directions
+                </a>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Guard stockists",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_stockists",
+      "label": "Show stockists section",
+      "default": true,
+      "info": "Hidden automatically when product metafield custom.available_at_shaver_shop is false (online-only)."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Find a Stockist"
+    },
+    {
+      "type": "text",
+      "id": "list_heading",
+      "label": "List heading",
+      "default": "Our Stockists"
+    },
+    {
+      "type": "image_picker",
+      "id": "map_image",
+      "label": "Map image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stockist",
+      "name": "Stockist",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Store name",
+          "default": "Shaver Shop Melbourne Lonsdale Street"
+        },
+        {
+          "type": "text",
+          "id": "address",
+          "label": "Address",
+          "default": "356 Lonsdale St, Melbourne VIC 3000"
+        },
+        {
+          "type": "text",
+          "id": "distance",
+          "label": "Distance",
+          "default": "0.5km away"
+        },
+        {
+          "type": "url",
+          "id": "directions_url",
+          "label": "Directions URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Guard stockists",
+      "blocks": [
+        {
+          "type": "stockist",
+          "settings": {
+            "name": "Shaver Shop Melbourne Lonsdale Street",
+            "address": "356 Lonsdale St, Melbourne VIC 3000",
+            "distance": "0.5km away"
+          }
+        },
+        {
+          "type": "stockist",
+          "settings": {
+            "name": "Shaver Shop DFO South Wharf",
+            "address": "DFO, b100/20 Convention Centre Pl, South Wharf VIC 3006",
+            "distance": "2km away"
+          }
+        },
+        {
+          "type": "stockist",
+          "settings": {
+            "name": "Shaver Shop Chapel St",
+            "address": "391 Chapel St, South Yarra VIC 3141",
+            "distance": "3km away"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

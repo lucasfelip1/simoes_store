@@ -1,0 +1,27 @@
+{% comment %}
+  Stock availability + urgency badge for Guard Labs PDP.
+  Accepts: block, product
+{% endcomment %}
+
+<div class="guard-stock-urgency" {{ block.shopify_attributes }}>
+  {%- if product.selected_or_first_available_variant.available -%}
+    <p class="guard-stock">
+      <span class="guard-stock__dot" aria-hidden="true"></span>
+      <span>
+        {{ block.settings.stock_text | default: "In Stock — Available Online & at Shaver Shop" }}
+      </span>
+    </p>
+  {%- else -%}
+    <p class="guard-stock">
+      <span class="guard-stock__dot" style="background:#c8c8c8" aria-hidden="true"></span>
+      <span>{{ 'products.product.sold_out' | t }}</span>
+    </p>
+  {%- endif -%}
+
+  {%- if block.settings.show_urgency -%}
+    {%- assign urgency_count = block.settings.urgency_count | default: 12 -%}
+    <span class="guard-urgency">
+      {{ block.settings.urgency_text | default: "In X shopper's carts" | replace: 'X', urgency_count }}
+    </span>
+  {%- endif -%}
+</div>

@@ -8,115 +8,88 @@
 {% endcomment %}
 
 {%- liquid
-  assign key_features = product.metafields.custom.key_features
   assign product_description = product.metafields.custom.product_description
   assign whats_in_the_box = product.metafields.custom.whats_in_the_box
   assign who_is_it_for = product.metafields.custom.who_is_it_for
   assign warranty_guarantee = product.metafields.custom.warranty_guarantee
   assign shipping_returns = product.metafields.custom.shipping_returns
-  assign why_it_works = product.metafields.custom.why_it_works
-  assign how_to_use = product.metafields.custom.how_to_use
-
-  assign has_accordions = false
-  if key_features != blank or product_description != blank or whats_in_the_box != blank or who_is_it_for != blank or warranty_guarantee != blank or shipping_returns != blank or why_it_works != blank or how_to_use != blank
-    assign has_accordions = true
-  endif
+  assign fallback_description = block.settings.fallback_description
+  assign fallback_box = block.settings.fallback_whats_in_the_box
+  assign fallback_who = block.settings.fallback_who_its_for
+  assign fallback_warranty = block.settings.fallback_warranty
+  assign fallback_shipping = block.settings.fallback_shipping
 -%}
 
-{%- if has_accordions -%}
-  <div
-    class="product-details-accordions quick-add-hidden"
-    {{ block.shopify_attributes }}
-  >
-    {%- if block.settings.availability_hint != blank -%}
-      <p class="product-details-accordions__hint caption">
-        {{ block.settings.availability_hint | escape }}
-      </p>
-    {%- endif -%}
+<div
+  class="product-details-accordions quick-add-hidden"
+  {{ block.shopify_attributes }}
+>
+  {%- if block.settings.availability_hint != blank -%}
+    <p class="product-details-accordions__hint caption">
+      {{ block.settings.availability_hint | escape }}
+    </p>
+  {%- endif -%}
 
-    <div class="product-details-accordions__list">
-      {%- liquid
-        assign title_key_features = 'products.product.details_accordions.key_features' | t
-        assign title_product_description = 'products.product.details_accordions.product_description' | t
-        assign title_whats_in_the_box = 'products.product.details_accordions.whats_in_the_box' | t
-        assign title_who_is_it_for = 'products.product.details_accordions.who_is_it_for' | t
-        assign title_warranty_guarantee = 'products.product.details_accordions.warranty_guarantee' | t
-        assign title_shipping_returns = 'products.product.details_accordions.shipping_returns' | t
-        assign title_why_it_works = 'products.product.details_accordions.why_it_works' | t
-        assign title_how_to_use = 'products.product.details_accordions.how_to_use' | t
-      -%}
+  <div class="product-details-accordions__list">
+    {%- liquid
+      assign title_product_description = 'products.product.details_accordions.product_description' | t
+      if title_product_description == blank or title_product_description contains 'translation missing'
+        assign title_product_description = 'Description'
+      endif
+      assign title_whats_in_the_box = 'products.product.details_accordions.whats_in_the_box' | t
+      assign title_who_is_it_for = 'products.product.details_accordions.who_is_it_for' | t
+      assign title_warranty_guarantee = 'products.product.details_accordions.warranty_guarantee' | t
+      assign title_shipping_returns = 'products.product.details_accordions.shipping_returns' | t
+    -%}
 
-      {% render 'product-details-accordion-item',
-        metafield: key_features,
-        title: title_key_features,
-        icon: 'star',
-        section_id: section.id,
-        item_id: 'key-features',
-        open: block.settings.open_first
-      %}
+    {% render 'product-details-accordion-item',
+      metafield: product_description,
+      fallback_html: fallback_description,
+      title: title_product_description,
+      icon: 'clipboard',
+      section_id: section.id,
+      item_id: 'product-description',
+      open: true
+    %}
 
-      {% render 'product-details-accordion-item',
-        metafield: product_description,
-        title: title_product_description,
-        icon: 'clipboard',
-        section_id: section.id,
-        item_id: 'product-description',
-        open: false
-      %}
+    {% render 'product-details-accordion-item',
+      metafield: whats_in_the_box,
+      fallback_html: fallback_box,
+      title: title_whats_in_the_box,
+      icon: 'box',
+      section_id: section.id,
+      item_id: 'whats-in-the-box',
+      open: false
+    %}
 
-      {% render 'product-details-accordion-item',
-        metafield: whats_in_the_box,
-        title: title_whats_in_the_box,
-        icon: 'box',
-        section_id: section.id,
-        item_id: 'whats-in-the-box',
-        open: false
-      %}
+    {% render 'product-details-accordion-item',
+      metafield: who_is_it_for,
+      fallback_html: fallback_who,
+      title: title_who_is_it_for,
+      icon: 'silhouette',
+      section_id: section.id,
+      item_id: 'who-is-it-for',
+      open: false
+    %}
 
-      {% render 'product-details-accordion-item',
-        metafield: who_is_it_for,
-        title: title_who_is_it_for,
-        icon: 'silhouette',
-        section_id: section.id,
-        item_id: 'who-is-it-for',
-        open: false
-      %}
+    {% render 'product-details-accordion-item',
+      metafield: warranty_guarantee,
+      fallback_html: fallback_warranty,
+      title: title_warranty_guarantee,
+      icon: 'check_mark',
+      section_id: section.id,
+      item_id: 'warranty-guarantee',
+      open: false
+    %}
 
-      {% render 'product-details-accordion-item',
-        metafield: warranty_guarantee,
-        title: title_warranty_guarantee,
-        icon: 'check_mark',
-        section_id: section.id,
-        item_id: 'warranty-guarantee',
-        open: false
-      %}
-
-      {% render 'product-details-accordion-item',
-        metafield: shipping_returns,
-        title: title_shipping_returns,
-        icon: 'truck',
-        section_id: section.id,
-        item_id: 'shipping-returns',
-        open: false
-      %}
-
-      {% render 'product-details-accordion-item',
-        metafield: why_it_works,
-        title: title_why_it_works,
-        icon: 'lightning_bolt',
-        section_id: section.id,
-        item_id: 'why-it-works',
-        open: false
-      %}
-
-      {% render 'product-details-accordion-item',
-        metafield: how_to_use,
-        title: title_how_to_use,
-        icon: 'question_mark',
-        section_id: section.id,
-        item_id: 'how-to-use',
-        open: false
-      %}
-    </div>
+    {% render 'product-details-accordion-item',
+      metafield: shipping_returns,
+      fallback_html: fallback_shipping,
+      title: title_shipping_returns,
+      icon: 'truck',
+      section_id: section.id,
+      item_id: 'shipping-returns',
+      open: false
+    %}
   </div>
-{%- endif -%}
+</div>

@@ -1,0 +1,28 @@
+{% comment %}
+  Guard Labs key features pills.
+  Accepts: block
+{% endcomment %}
+
+{%- liquid
+  assign features = blank
+-%}
+
+<ul class="guard-key-features__list" {{ block.shopify_attributes }}>
+  {%- for i in (1..6) -%}
+    {%- liquid
+      assign name_key = 'feature_' | append: i | append: '_name'
+      assign desc_key = 'feature_' | append: i | append: '_desc'
+      assign fname = block.settings[name_key]
+      assign fdesc = block.settings[desc_key]
+    -%}
+    {%- if fname != blank -%}
+      <li class="guard-key-features__item">
+        <span class="guard-key-features__name">{{ fname | escape }}</span>
+        <span class="guard-key-features__arrow" aria-hidden="true">→</span>
+        {%- if fdesc != blank -%}
+          <span class="guard-key-features__desc">{{ fdesc | escape }}</span>
+        {%- endif -%}
+      </li>
+    {%- endif -%}
+  {%- endfor -%}
+</ul>

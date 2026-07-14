@@ -9,9 +9,7 @@
   <ul class="product-tags list-unstyled" role="list" aria-label="{{ 'products.product.tags.label' | t }}">
     {%- for tag in product.tags -%}
       <li class="product-tags__item">
-        <a href="{{ routes.all_products_collection_url }}/{{ tag | handleize }}" class="badge product-tags__badge">
-          {{ tag }}
-        </a>
+        <span class="badge product-tags__badge">{{ tag }}</span>
       </li>
     {%- endfor -%}
   </ul>

@@ -1,86 +1,105 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
       "type": "main-product",
       "blocks": {
+        "guard_badges": {
+          "type": "guard_badges",
+          "settings": {
+            "badge_1": "BEST SELLER",
+            "badge_2": "AUSTRALIAN MADE"
+          }
+        },
+        "guard_rating": {
+          "type": "guard_rating",
+          "settings": {
+            "rating": "4.5",
+            "review_count": "22"
+          }
+        },
         "title": {
           "type": "title",
           "settings": {}
         },
-        "vendor": {
-          "type": "text",
+        "guard_short_description": {
+          "type": "guard_short_description",
           "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "body"
+            "text": "Take the Elite Pro — built for wet or dry use, designed with smart tech for smoother skin and less irritation. Performance-driven, bathroom-shelf worthy."
           }
-        },
-        "variant_picker": {
-          "type": "variant_picker",
-          "settings": {
-            "picker_type": "button"
-          }
-        },
-        "quantity_selector": {
-          "type": "quantity_selector",
-          "disabled": true,
-          "settings": {}
         },
         "price": {
           "type": "price",
           "settings": {}
         },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
-            "show_dynamic_checkout": true,
+            "show_dynamic_checkout": false,
             "show_gift_card_recipient": false
           }
         },
-        "description": {
-          "type": "description",
-          "settings": {}
-        },
-        "share": {
-          "type": "share",
-          "disabled": true,
+        "guard_stock_urgency": {
+          "type": "guard_stock_urgency",
           "settings": {
-            "share_label": "Share"
+            "stock_text": "In Stock — Available Online & at Shaver Shop",
+            "show_urgency": true,
+            "urgency_count": "12",
+            "urgency_text": "In X shopper's carts"
           }
         },
-        "details_accordions_3WydXC": {
+        "guard_key_features": {
+          "type": "guard_key_features",
+          "settings": {
+            "heading": "Key Features",
+            "feature_1_name": "Wet or Dry",
+            "feature_1_desc": "Use in the shower or on the go",
+            "feature_2_name": "Ultra Close Tech™",
+            "feature_2_desc": "Smooth finish, less irritation",
+            "feature_3_name": "Pivoting Heads",
+            "feature_3_desc": "Follows every contour of your face",
+            "feature_4_name": "120-Min Battery",
+            "feature_4_desc": "Long runtime between charges",
+            "feature_5_name": "Waterproof",
+            "feature_5_desc": "Rinse clean under the tap",
+            "feature_6_name": "Australian Made",
+            "feature_6_desc": "Designed and engineered locally"
+          }
+        },
+        "details_accordions": {
           "type": "details_accordions",
           "settings": {
             "availability_hint": "",
-            "open_first": false
+            "open_first": true,
+            "fallback_description": "<p>The Face Guard Elite Pro Rotary Shaver is built for a closer, cleaner shave — whether you're at the sink or in the shower. Ultra Close Tech™ blades cut closer with less tug, while pivoting heads follow every contour of your face. With a 120-minute battery and a design that looks as sharp as it shaves, this is grooming that works as hard as you do.</p><p>Engineered in Australia and trusted by guys who want performance without the fuss. Wet or dry. Fast or careful. Everyday or go-time. The Elite Pro keeps up.</p>",
+            "fallback_whats_in_the_box": "<p>Elite PRO Rotary Shaver, charging cable, cleaning brush, travel pouch, Guard Labs shaving oil sample.</p>",
+            "fallback_who_its_for": "<p>Guys who want a close, comfortable shave at home or on the go — wet or dry.</p>",
+            "fallback_warranty": "<p>2-year manufacturer warranty. 30-day satisfaction guarantee.</p>",
+            "fallback_shipping": "<p>Free shipping on orders over $50. Easy returns within 30 days.</p>"
           }
         }
       },
       "block_order": [
+        "guard_badges",
+        "guard_rating",
         "title",
-        "vendor",
-        "variant_picker",
-        "quantity_selector",
+        "guard_short_description",
         "price",
+        "quantity_selector",
         "buy_buttons",
-        "description",
-        "share",
-        "details_accordions_3WydXC"
+        "guard_stock_urgency",
+        "guard_key_features",
+        "details_accordions"
       ],
       "settings": {
         "enable_sticky_info": true,
         "media_size": "medium",
         "constrain_to_viewport": true,
         "media_fit": "contain",
-        "gallery_layout": "thumbnail_slider",
+        "gallery_layout": "thumbnail",
         "enable_gallery_autoplay": false,
         "gallery_autoplay_speed": 4,
         "media_position": "left",
@@ -88,30 +107,179 @@
         "mobile_thumbnails": "hide",
         "hide_variants": true,
         "enable_video_looping": true,
-        "padding_top": 64,
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "guard_hero_video": {
+      "type": "guard-hero-video",
+      "settings": {
+        "heading": "Product video",
+        "autoplay": true,
+        "loop": true,
+        "padding_top": 0,
         "padding_bottom": 0
       }
     },
-    "related-products": {
-      "type": "related-products",
+    "guard_why_it_works": {
+      "type": "guard-why-it-works",
       "settings": {
-        "heading": "Related products",
-        "heading_size": "h2",
-        "products_to_show": 4,
-        "columns_desktop": 4,
-        "color_scheme": "background-1",
-        "image_ratio": "portrait",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "columns_mobile": "2",
-        "padding_top": 48,
-        "padding_bottom": 28
+        "heading": "Why It Works",
+        "text": "<p>Our <strong>Ultra Close Tech™</strong> blades are designed to cut closer while reducing tug and pull — meaning smoother skin, fewer bumps. The <strong>pivoting head</strong> adjusts to your face shape, and the Guard Labs <strong>shaving oil</strong> preps your skin so every glide feels effortless.</p>"
+      }
+    },
+    "guard_how_to_use": {
+      "type": "guard-how-to-use",
+      "settings": {
+        "heading": "How to Use",
+        "step_1": "Prep with Face Guard Pre-Shave Oil for best results.",
+        "step_2": "Use wet or dry — whatever suits your routine.",
+        "step_3": "Rinse under water after every use (yes, it's waterproof).",
+        "step_4": "Spray with Guard+ Cleaner to keep blades fresh and sharp."
+      }
+    },
+    "guard_stockists": {
+      "type": "guard-stockists",
+      "blocks": {
+        "stockist_1": {
+          "type": "stockist",
+          "settings": {
+            "name": "Shaver Shop Melbourne Lonsdale Street",
+            "address": "356 Lonsdale St, Melbourne VIC 3000",
+            "distance": "0.5km away"
+          }
+        },
+        "stockist_2": {
+          "type": "stockist",
+          "settings": {
+            "name": "Shaver Shop DFO South Wharf",
+            "address": "DFO, b100/20 Convention Centre Pl, South Wharf VIC 3006",
+            "distance": "2km away"
+          }
+        },
+        "stockist_3": {
+          "type": "stockist",
+          "settings": {
+            "name": "Shaver Shop Chapel St",
+            "address": "391 Chapel St, South Yarra VIC 3141",
+            "distance": "3km away"
+          }
+        }
+      },
+      "block_order": ["stockist_1", "stockist_2", "stockist_3"],
+      "settings": {
+        "show_stockists": true,
+        "heading": "Find a Stockist",
+        "list_heading": "Our Stockists"
+      }
+    },
+    "guard_reviews": {
+      "type": "guard-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "author": "Reviewer Name",
+            "stars": 5,
+            "recommend": true,
+            "title": "Great review!",
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+            "show_media": true,
+            "helpful_yes": "3",
+            "helpful_no": "0"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "author": "Reviewer Name",
+            "stars": 4,
+            "recommend": true,
+            "title": "Really impressed",
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            "show_media": false,
+            "helpful_yes": "1",
+            "helpful_no": "0"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "author": "Reviewer Name",
+            "stars": 5,
+            "recommend": true,
+            "title": "Great review!",
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation.",
+            "show_media": false,
+            "helpful_yes": "2",
+            "helpful_no": "0"
+          }
+        }
+      },
+      "block_order": ["review_1", "review_2", "review_3"],
+      "settings": {
+        "rating": "4.9",
+        "review_total": "250+",
+        "recommend_text": "99% would recommend this product."
+      }
+    },
+    "guard_complete_the_set": {
+      "type": "guard-complete-the-set",
+      "settings": {
+        "heading": "Complete the Set",
+        "products_to_show": 3,
+        "show_badge": true
+      }
+    },
+    "guard_ugc_videos": {
+      "type": "guard-ugc-videos",
+      "blocks": {
+        "ugc_1": {
+          "type": "video_card",
+          "settings": {
+            "show_product_card": true
+          }
+        },
+        "ugc_2": {
+          "type": "video_card",
+          "settings": {
+            "show_product_card": false
+          }
+        },
+        "ugc_3": {
+          "type": "video_card",
+          "settings": {
+            "show_product_card": false
+          }
+        },
+        "ugc_4": {
+          "type": "video_card",
+          "settings": {
+            "show_product_card": false
+          }
+        },
+        "ugc_5": {
+          "type": "video_card",
+          "settings": {
+            "show_product_card": false
+          }
+        }
+      },
+      "block_order": ["ugc_1", "ugc_2", "ugc_3", "ugc_4", "ugc_5"],
+      "settings": {
+        "heading": "Your grooming, your way.",
+        "subheading": "Real routines, real results."
       }
     }
   },
   "order": [
     "main",
-    "related-products"
+    "guard_hero_video",
+    "guard_why_it_works",
+    "guard_how_to_use",
+    "guard_stockists",
+    "guard_reviews",
+    "guard_complete_the_set",
+    "guard_ugc_videos"
   ]
 }

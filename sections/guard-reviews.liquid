@@ -1,0 +1,199 @@
+{{ 'guard-labs-pdp.css' | asset_url | stylesheet_tag }}
+
+<section class="guard-section guard-reviews" id="GuardReviews-{{ section.id }}">
+  <div class="guard-section__inner">
+    <div class="guard-reviews__summary">
+      <div>
+        <div class="guard-reviews__score">
+          <p class="guard-reviews__score-num">{{ section.settings.rating | default: '4.9' }}</p>
+          <div class="guard-rating__stars" aria-hidden="true">
+            {%- for i in (1..5) -%}
+              <svg viewBox="0 0 20 20" width="22" height="22" fill="#1E6FD1"><path d="M10 1.5l2.5 5.1 5.6.8-4 3.9.9 5.6L10 14.3 5 16.9l.9-5.6-4-3.9 5.6-.8L10 1.5z"/></svg>
+            {%- endfor -%}
+          </div>
+          <p class="guard-rating__text">Based on {{ section.settings.review_total | default: '250+' }} reviews.</p>
+        </div>
+        <p style="margin:1.2rem 0 0;font-size:1.4rem;">{{ section.settings.recommend_text | default: '99% would recommend this product.' }}</p>
+        <ul class="guard-reviews__bars">
+          <li class="guard-reviews__bar-row">
+            <span>5</span>
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="#1E6FD1"><path d="M10 1.5l2.5 5.1 5.6.8-4 3.9.9 5.6L10 14.3 5 16.9l.9-5.6-4-3.9 5.6-.8L10 1.5z"/></svg>
+            <div class="guard-reviews__bar-track"><div class="guard-reviews__bar-fill" style="width:84%"></div></div>
+            <span>200</span>
+          </li>
+          <li class="guard-reviews__bar-row">
+            <span>4</span>
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="#1E6FD1"><path d="M10 1.5l2.5 5.1 5.6.8-4 3.9.9 5.6L10 14.3 5 16.9l.9-5.6-4-3.9 5.6-.8L10 1.5z"/></svg>
+            <div class="guard-reviews__bar-track"><div class="guard-reviews__bar-fill" style="width:8%"></div></div>
+            <span>20</span>
+          </li>
+          <li class="guard-reviews__bar-row">
+            <span>3</span>
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="#1E6FD1"><path d="M10 1.5l2.5 5.1 5.6.8-4 3.9.9 5.6L10 14.3 5 16.9l.9-5.6-4-3.9 5.6-.8L10 1.5z"/></svg>
+            <div class="guard-reviews__bar-track"><div class="guard-reviews__bar-fill" style="width:4%"></div></div>
+            <span>10</span>
+          </li>
+          <li class="guard-reviews__bar-row">
+            <span>2</span>
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="#1E6FD1"><path d="M10 1.5l2.5 5.1 5.6.8-4 3.9.9 5.6L10 14.3 5 16.9l.9-5.6-4-3.9 5.6-.8L10 1.5z"/></svg>
+            <div class="guard-reviews__bar-track"><div class="guard-reviews__bar-fill" style="width:2%"></div></div>
+            <span>5</span>
+          </li>
+          <li class="guard-reviews__bar-row">
+            <span>1</span>
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="#1E6FD1"><path d="M10 1.5l2.5 5.1 5.6.8-4 3.9.9 5.6L10 14.3 5 16.9l.9-5.6-4-3.9 5.6-.8L10 1.5z"/></svg>
+            <div class="guard-reviews__bar-track"><div class="guard-reviews__bar-fill" style="width:1%"></div></div>
+            <span>2</span>
+          </li>
+        </ul>
+      </div>
+      <div class="guard-reviews__photos">
+        {%- for i in (1..6) -%}
+          <div class="guard-placeholder" role="img" aria-label="Review photo {{ i }}"></div>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <div class="guard-reviews__toolbar">
+      <div class="guard-reviews__toolbar-actions">
+        <button type="button" class="guard-btn">FILTERS</button>
+        <button type="button" class="guard-btn">WRITE A REVIEW</button>
+      </div>
+      <div class="guard-reviews__sort">Sort: Most Recent</div>
+    </div>
+
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'review' -%}
+        <article class="guard-review-card{% if block.settings.show_media %} guard-review-card--with-media{% endif %}" {{ block.shopify_attributes }}>
+          <div>
+            <div class="guard-review-card__meta">
+              <strong>{{ block.settings.author | default: 'Reviewer Name' }}</strong>
+              {%- if block.settings.recommend -%}
+                <span class="guard-review-card__recommend">👍 I recommend this product.</span>
+              {%- endif -%}
+            </div>
+            <div class="guard-rating__stars" aria-hidden="true">
+              {%- assign stars = block.settings.stars | default: 5 | plus: 0 -%}
+              {%- for i in (1..5) -%}
+                <svg viewBox="0 0 20 20" width="16" height="16" fill="{% if i <= stars %}#1E6FD1{% else %}#D5D5D7{% endif %}"><path d="M10 1.5l2.5 5.1 5.6.8-4 3.9.9 5.6L10 14.3 5 16.9l.9-5.6-4-3.9 5.6-.8L10 1.5z"/></svg>
+              {%- endfor -%}
+            </div>
+            <h3 class="guard-review-card__title">{{ block.settings.title | default: 'Great review!' }}</h3>
+            <p class="guard-review-card__body">
+              {{ block.settings.body | default: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' }}
+            </p>
+            <div class="guard-review-card__helpful">
+              <span>Was this helpful?</span>
+              <span>👍 {{ block.settings.helpful_yes | default: 3 }}</span>
+              <span>👎 {{ block.settings.helpful_no | default: 0 }}</span>
+            </div>
+          </div>
+          {%- if block.settings.show_media -%}
+            <div class="guard-placeholder" role="img" aria-label="Review media"></div>
+          {%- endif -%}
+        </article>
+      {%- endif -%}
+    {%- endfor -%}
+
+    <div class="guard-reviews__more">
+      <button type="button" class="guard-btn guard-btn--pill">SHOW MORE</button>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Guard reviews",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "rating",
+      "label": "Average rating",
+      "default": "4.9"
+    },
+    {
+      "type": "text",
+      "id": "review_total",
+      "label": "Review total label",
+      "default": "250+"
+    },
+    {
+      "type": "text",
+      "id": "recommend_text",
+      "label": "Recommend text",
+      "default": "99% would recommend this product."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Reviewer Name"
+        },
+        {
+          "type": "range",
+          "id": "stars",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Stars",
+          "default": 5
+        },
+        {
+          "type": "checkbox",
+          "id": "recommend",
+          "label": "Recommend",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Great review!"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_media",
+          "label": "Show media placeholder",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "helpful_yes",
+          "label": "Helpful yes count",
+          "default": "3"
+        },
+        {
+          "type": "text",
+          "id": "helpful_no",
+          "label": "Helpful no count",
+          "default": "0"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Guard reviews",
+      "blocks": [
+        { "type": "review", "settings": { "show_media": true } },
+        { "type": "review", "settings": { "stars": 4, "title": "Really impressed" } },
+        { "type": "review" }
+      ]
+    }
+  ]
+}
+{% endschema %}

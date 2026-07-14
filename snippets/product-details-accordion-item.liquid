@@ -1,8 +1,9 @@
 {% comment %}
-  Renders one product details accordion row when metafield content exists.
+  Renders one product details accordion row when metafield or fallback content exists.
 
   Accepts:
   - metafield: {Object} Product metafield
+  - fallback_html: {String} Optional HTML/text fallback for sample pages
   - title: {String} Accordion heading
   - icon: {String} Icon name for icon-accordion snippet
   - section_id: {String} Section ID for unique element IDs
@@ -10,7 +11,16 @@
   - open: {Boolean} Whether details starts open
 {% endcomment %}
 
-{%- if metafield != blank -%}
+{%- liquid
+  assign content_html = blank
+  if metafield != blank
+    assign content_html = metafield | metafield_tag
+  elsif fallback_html != blank
+    assign content_html = fallback_html
+  endif
+-%}
+
+{%- if content_html != blank -%}
   <div class="product-details-accordions__item accordion">
     <details
       id="Details-product-details-{{ item_id }}-{{ section_id }}"
@@ -31,7 +41,7 @@
         class="accordion__content rte product-details-accordions__content"
         id="ProductDetailsAccordion-{{ item_id }}-{{ section_id }}"
       >
-        {{ metafield | metafield_tag }}
+        {{ content_html }}
       </div>
     </details>
   </div>

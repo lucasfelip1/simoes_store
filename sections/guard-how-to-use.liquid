@@ -1,0 +1,86 @@
+{{ 'guard-labs-pdp.css' | asset_url | stylesheet_tag }}
+
+<section class="guard-section guard-checker guard-checker--reverse" id="GuardHow-{{ section.id }}">
+  <div class="guard-checker__media">
+    {%- if section.settings.image != blank -%}
+      {{
+        section.settings.image
+        | image_url: width: 1400
+        | image_tag: loading: 'lazy', widths: '550, 750, 1100, 1400', sizes: '(min-width: 750px) 50vw, 100vw'
+      }}
+    {%- else -%}
+      <div class="guard-placeholder" style="height:100%;min-height:32rem;" role="img" aria-label="How to Use"></div>
+    {%- endif -%}
+  </div>
+  <div class="guard-checker__content">
+    <h2 class="guard-section__heading">{{ section.settings.heading | default: 'How to Use' }}</h2>
+    <ol class="guard-steps">
+      <li>
+        <span class="guard-steps__num">1.</span>
+        <span>{{ section.settings.step_1 | default: 'Prep with Face Guard Pre-Shave Oil for best results.' }}</span>
+      </li>
+      <li>
+        <span class="guard-steps__num">2.</span>
+        <span>{{ section.settings.step_2 | default: 'Use wet or dry — whatever suits your routine.' }}</span>
+      </li>
+      <li>
+        <span class="guard-steps__num">3.</span>
+        <span>{{ section.settings.step_3 | default: "Rinse under water after every use (yes, it's waterproof)." }}</span>
+      </li>
+      <li>
+        <span class="guard-steps__num">4.</span>
+        <span>{{ section.settings.step_4 | default: 'Spray with Guard+ Cleaner to keep blades fresh and sharp.' }}</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Guard How to Use",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "How to Use"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "step_1",
+      "label": "Step 1",
+      "default": "Prep with Face Guard Pre-Shave Oil for best results."
+    },
+    {
+      "type": "text",
+      "id": "step_2",
+      "label": "Step 2",
+      "default": "Use wet or dry — whatever suits your routine."
+    },
+    {
+      "type": "text",
+      "id": "step_3",
+      "label": "Step 3",
+      "default": "Rinse under water after every use (yes, it's waterproof)."
+    },
+    {
+      "type": "text",
+      "id": "step_4",
+      "label": "Step 4",
+      "default": "Spray with Guard+ Cleaner to keep blades fresh and sharp."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Guard How to Use"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,119 @@
+{{ 'guard-labs-pdp.css' | asset_url | stylesheet_tag }}
+
+<section class="guard-section guard-ugc" id="GuardUgc-{{ section.id }}">
+  <h2 class="guard-ugc__heading">{{ section.settings.heading | default: 'Your grooming, your way.' }}</h2>
+  <p class="guard-ugc__sub">{{ section.settings.subheading | default: 'Real routines, real results.' }}</p>
+
+  <div class="guard-ugc__track">
+    {%- for block in section.blocks -%}
+      <div class="guard-ugc__item" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          {{
+            block.settings.image
+            | image_url: width: 600
+            | image_tag: loading: 'lazy', widths: '300, 450, 600', sizes: '240px'
+          }}
+        {%- else -%}
+          <div class="guard-placeholder" role="img" aria-label="UGC video {{ forloop.index }}"></div>
+        {%- endif -%}
+
+        {%- if block.settings.show_product_card -%}
+          <div class="guard-ugc__product">
+            <div class="guard-ugc__product-thumb">
+              {%- if block.settings.product != blank and block.settings.product.featured_media -%}
+                {{ block.settings.product.featured_media | image_url: width: 80 | image_tag: loading: 'lazy' }}
+              {%- endif -%}
+            </div>
+            <div class="guard-ugc__product-info">
+              <p class="guard-ugc__product-name">
+                {%- if block.settings.product != blank -%}
+                  {{ block.settings.product.title }}
+                {%- else -%}
+                  PRODUCT NAME
+                {%- endif -%}
+              </p>
+              <p class="guard-ugc__product-price">
+                {%- if block.settings.product != blank -%}
+                  {{ block.settings.product.price | money }}
+                {%- else -%}
+                  $X
+                {%- endif -%}
+              </p>
+            </div>
+            <a
+              class="guard-card__arrow"
+              href="{% if block.settings.product != blank %}{{ block.settings.product.url }}{% else %}#{% endif %}"
+              aria-label="View product"
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+
+  <div class="guard-ugc__dots" aria-hidden="true">
+    {%- for block in section.blocks -%}
+      <span{% if forloop.first %} class="is-active"{% endif %}></span>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Guard UGC videos",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Your grooming, your way."
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Real routines, real results."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video_card",
+      "name": "Video / image card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_product_card",
+          "label": "Show product overlay",
+          "default": false
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Linked product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Guard UGC videos",
+      "blocks": [
+        { "type": "video_card", "settings": { "show_product_card": true } },
+        { "type": "video_card" },
+        { "type": "video_card" },
+        { "type": "video_card" },
+        { "type": "video_card" }
+      ]
+    }
+  ]
+}
+{% endschema %}

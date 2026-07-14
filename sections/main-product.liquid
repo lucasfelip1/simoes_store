@@ -1,9 +1,10 @@
 <section
   id="MainProduct-{{ section.id }}"
-  class="page-width section-{{ section.id }}-padding"
+  class="page-width section-{{ section.id }}-padding guard-pdp"
   data-section="{{ section.id }}"
 >
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+  {{ 'guard-labs-pdp.css' | asset_url | stylesheet_tag }}
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
   {{ 'component-product-details-accordions.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
@@ -81,21 +82,58 @@
                 {{- block.settings.text -}}
               </p>
             {%- when 'title' -%}
-              <div class="product__title" {{ block.shopify_attributes }}>
-                <h1>{{ product.title | escape }}</h1>
-                <a href="{{ product.url }}" class="product__title">
-                  <h2 class="h1">
-                    {{ product.title | escape }}
-                  </h2>
-                </a>
-                {% render 'product-tags', product: product %}
+              <div class="product__title-price-row" {{ block.shopify_attributes }}>
+                <div class="product__title">
+                  <h1>{{ product.title | escape }}</h1>
+                  <a href="{{ product.url }}" class="product__title">
+                    <h2 class="h1">
+                      {{ product.title | escape }}
+                    </h2>
+                  </a>
+                </div>
+                <div class="no-js-hidden price-block" id="price-{{ section.id }}" role="status">
+                  {%- render 'price',
+                    product: product,
+                    use_variant: true,
+                    show_badges: false,
+                    price_class: 'price--large'
+                  -%}
+                </div>
               </div>
+            {%- when 'guard_badges' -%}
+              <div class="guard-badges guard-badges-block" {{ block.shopify_attributes }}>
+                {%- if product.tags.size > 0 -%}
+                  {% render 'product-tags', product: product %}
+                {%- else -%}
+                  {%- if block.settings.badge_1 != blank -%}
+                    <span class="guard-badge">{{ block.settings.badge_1 | escape }}</span>
+                  {%- endif -%}
+                  {%- if block.settings.badge_2 != blank -%}
+                    <span class="guard-badge guard-badge--dark">{{ block.settings.badge_2 | escape }}</span>
+                  {%- endif -%}
+                {%- endif -%}
+              </div>
+            {%- when 'guard_rating' -%}
+              {% render 'guard-rating', block: block %}
+            {%- when 'guard_short_description' -%}
+              {%- assign short_desc = block.settings.text -%}
+              {%- if short_desc == blank -%}
+                {%- assign short_desc = 'Take the Elite Pro — built for wet or dry use, designed with smart tech for smoother skin and less irritation. Performance-driven, bathroom-shelf worthy.' -%}
+              {%- endif -%}
+              <p class="guard-short-desc" {{ block.shopify_attributes }}>{{ short_desc }}</p>
+            {%- when 'guard_key_features' -%}
+              <div class="guard-key-features" {{ block.shopify_attributes }}>
+                <h2 class="guard-key-features__title">{{ block.settings.heading | default: 'Key Features' }}</h2>
+                {% render 'guard-key-features', block: block %}
+              </div>
+            {%- when 'guard_stock_urgency' -%}
+              {% render 'guard-stock-urgency', block: block, product: product %}
             {%- when 'price' -%}
-              <div class="no-js-hidden" id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
+              <div class="no-js-hidden price-block visually-hidden" id="price-standalone-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
                 {%- render 'price',
                   product: product,
                   use_variant: true,
-                  show_badges: true,
+                  show_badges: false,
                   price_class: 'price--large'
                 -%}
               </div>
@@ -767,7 +805,204 @@
           "type": "checkbox",
           "id": "open_first",
           "label": "t:sections.main-product.blocks.details_accordions.settings.open_first.label",
-          "default": false
+          "default": true
+        },
+        {
+          "type": "textarea",
+          "id": "fallback_description",
+          "label": "Fallback Description",
+          "default": "<p>The Face Guard Elite Pro Rotary Shaver is built for a closer, cleaner shave — whether you're at the sink or in the shower. Ultra Close Tech™ blades cut closer with less tug, while pivoting heads follow every contour of your face. With a 120-minute battery and a design that looks as sharp as it shaves, this is grooming that works as hard as you do.</p><p>Engineered in Australia and trusted by guys who want performance without the fuss. Wet or dry. Fast or careful. Everyday or go-time. The Elite Pro keeps up.</p>"
+        },
+        {
+          "type": "textarea",
+          "id": "fallback_whats_in_the_box",
+          "label": "Fallback What's in the box",
+          "default": "<p>Elite PRO Rotary Shaver, charging cable, cleaning brush, travel pouch, Guard Labs shaving oil sample.</p>"
+        },
+        {
+          "type": "textarea",
+          "id": "fallback_who_its_for",
+          "label": "Fallback Who it's for",
+          "default": "<p>Guys who want a close, comfortable shave at home or on the go — wet or dry.</p>"
+        },
+        {
+          "type": "textarea",
+          "id": "fallback_warranty",
+          "label": "Fallback Warranty",
+          "default": "<p>2-year manufacturer warranty. 30-day satisfaction guarantee.</p>"
+        },
+        {
+          "type": "textarea",
+          "id": "fallback_shipping",
+          "label": "Fallback Shipping & returns",
+          "default": "<p>Free shipping on orders over $50. Easy returns within 30 days.</p>"
+        }
+      ]
+    },
+    {
+      "type": "guard_badges",
+      "name": "Guard badges",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge_1",
+          "label": "Badge 1",
+          "default": "BEST SELLER"
+        },
+        {
+          "type": "text",
+          "id": "badge_2",
+          "label": "Badge 2",
+          "default": "AUSTRALIAN MADE"
+        }
+      ]
+    },
+    {
+      "type": "guard_rating",
+      "name": "Guard rating",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "rating",
+          "label": "Rating",
+          "default": "4.5"
+        },
+        {
+          "type": "text",
+          "id": "review_count",
+          "label": "Review count",
+          "default": "22"
+        }
+      ]
+    },
+    {
+      "type": "guard_short_description",
+      "name": "Guard short description",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Take the Elite Pro — built for wet or dry use, designed with smart tech for smoother skin and less irritation. Performance-driven, bathroom-shelf worthy."
+        }
+      ]
+    },
+    {
+      "type": "guard_stock_urgency",
+      "name": "Guard stock & urgency",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "stock_text",
+          "label": "Stock text",
+          "default": "In Stock — Available Online & at Shaver Shop"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_urgency",
+          "label": "Show urgency badge",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "urgency_count",
+          "label": "Shopper count (X)",
+          "default": "12"
+        },
+        {
+          "type": "text",
+          "id": "urgency_text",
+          "label": "Urgency text (use X for count)",
+          "default": "In X shopper's carts"
+        }
+      ]
+    },
+    {
+      "type": "guard_key_features",
+      "name": "Guard key features",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Key Features"
+        },
+        {
+          "type": "text",
+          "id": "feature_1_name",
+          "label": "Feature 1 name",
+          "default": "Wet or Dry"
+        },
+        {
+          "type": "text",
+          "id": "feature_1_desc",
+          "label": "Feature 1 description",
+          "default": "Use in the shower or on the go"
+        },
+        {
+          "type": "text",
+          "id": "feature_2_name",
+          "label": "Feature 2 name",
+          "default": "Ultra Close Tech™"
+        },
+        {
+          "type": "text",
+          "id": "feature_2_desc",
+          "label": "Feature 2 description",
+          "default": "Smooth finish, less irritation"
+        },
+        {
+          "type": "text",
+          "id": "feature_3_name",
+          "label": "Feature 3 name",
+          "default": "Pivoting Heads"
+        },
+        {
+          "type": "text",
+          "id": "feature_3_desc",
+          "label": "Feature 3 description",
+          "default": "Follows every contour of your face"
+        },
+        {
+          "type": "text",
+          "id": "feature_4_name",
+          "label": "Feature 4 name",
+          "default": "120-Min Battery"
+        },
+        {
+          "type": "text",
+          "id": "feature_4_desc",
+          "label": "Feature 4 description",
+          "default": "Long runtime between charges"
+        },
+        {
+          "type": "text",
+          "id": "feature_5_name",
+          "label": "Feature 5 name",
+          "default": "Waterproof"
+        },
+        {
+          "type": "text",
+          "id": "feature_5_desc",
+          "label": "Feature 5 description",
+          "default": "Rinse clean under the tap"
+        },
+        {
+          "type": "text",
+          "id": "feature_6_name",
+          "label": "Feature 6 name",
+          "default": "Australian Made"
+        },
+        {
+          "type": "text",
+          "id": "feature_6_desc",
+          "label": "Feature 6 description",
+          "default": "Designed and engineered locally"
         }
       ]
     },
