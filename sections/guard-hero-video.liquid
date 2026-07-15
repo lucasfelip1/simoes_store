@@ -1,4 +1,5 @@
 {{ 'guard-labs-pdp.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'guard-video-autoplay.js' | asset_url }}" defer="defer"></script>
 
 {%- liquid
   assign has_shopify_video = false
@@ -15,6 +16,8 @@
   if section.settings.poster != blank
     assign has_poster = true
   endif
+
+  assign should_autoplay = section.settings.autoplay
 -%}
 
 <section
@@ -24,23 +27,42 @@
 >
   <div class="guard-hero-video__frame">
     {%- if has_shopify_video -%}
-      {{
-        section.settings.video
-        | video_tag:
-          image_size: '1920x',
-          autoplay: section.settings.autoplay,
-          loop: section.settings.loop,
-          muted: true,
-          controls: section.settings.show_controls,
-          class: 'guard-hero-video__media'
-      }}
-    {%- elsif has_external_video -%}
       <video
         class="guard-hero-video__media"
-        {% if section.settings.autoplay %}autoplay{% endif %}
+        data-guard-video
+        {% if should_autoplay %}
+          autoplay
+          data-autoplay="true"
+        {% endif %}
         {% if section.settings.loop %}loop{% endif %}
         muted
         playsinline
+        webkit-playsinline
+        preload="auto"
+        {% if section.settings.show_controls %}controls{% endif %}
+        {% if has_poster %}
+          poster="{{ section.settings.poster | image_url: width: 1920 }}"
+        {% elsif section.settings.video.preview_image != blank %}
+          poster="{{ section.settings.video.preview_image | image_url: width: 1920 }}"
+        {% endif %}
+      >
+        {%- for source in section.settings.video.sources -%}
+          <source src="{{ source.url }}" type="{{ source.mime_type }}">
+        {%- endfor -%}
+      </video>
+    {%- elsif has_external_video -%}
+      <video
+        class="guard-hero-video__media"
+        data-guard-video
+        {% if should_autoplay %}
+          autoplay
+          data-autoplay="true"
+        {% endif %}
+        {% if section.settings.loop %}loop{% endif %}
+        muted
+        playsinline
+        webkit-playsinline
+        preload="auto"
         {% if section.settings.show_controls %}controls{% endif %}
         {% if has_poster %}
           poster="{{ section.settings.poster | image_url: width: 1920 }}"
@@ -98,7 +120,7 @@
       "type": "text",
       "id": "video_url",
       "label": "External MP4 URL",
-      "info": "Optional Dropbox/CDN .mp4 link if not using Shopify-hosted video"
+      "info": "Must be a direct .mp4 link. Dropbox share pages usually fail — prefer Shopify-hosted video."
     },
     {
       "type": "image_picker",
@@ -109,7 +131,8 @@
       "type": "checkbox",
       "id": "autoplay",
       "label": "Autoplay (muted)",
-      "default": true
+      "default": true,
+      "info": "Browsers only allow autoplay when muted. iOS Low Power Mode can still block it."
     },
     {
       "type": "checkbox",

@@ -1,4 +1,5 @@
 {{ 'guard-labs-pdp.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'guard-video-autoplay.js' | asset_url }}" defer="defer"></script>
 
 <section class="guard-section guard-ugc" id="GuardUgc-{{ section.id }}">
   <h2 class="guard-ugc__heading">{{ section.settings.heading | default: 'Your grooming, your way.' }}</h2>
@@ -21,28 +22,50 @@
         if block.settings.image != blank
           assign has_image = true
         endif
+
+        assign should_autoplay = block.settings.autoplay
       -%}
 
       <div class="guard-ugc__item" {{ block.shopify_attributes }}>
         <div class="guard-ugc__media">
           {%- if has_video -%}
-            {{
-              block.settings.video
-              | video_tag:
-                image_size: '600x',
-                autoplay: block.settings.autoplay,
-                loop: true,
-                muted: true,
-                controls: block.settings.show_controls,
-                class: 'guard-ugc__video'
-            }}
-          {%- elsif has_video_url -%}
             <video
               class="guard-ugc__video"
-              {% if block.settings.autoplay %}autoplay{% endif %}
+              data-guard-video
+              {% if should_autoplay %}
+                autoplay
+                data-autoplay="true"
+              {% endif %}
               loop
               muted
               playsinline
+              webkit-playsinline
+              preload="auto"
+              {% if should_autoplay == false and block.settings.show_controls %}controls{% endif %}
+              {% if block.settings.show_controls %}controls{% endif %}
+              {% if has_image %}
+                poster="{{ block.settings.image | image_url: width: 600 }}"
+              {% elsif block.settings.video.preview_image != blank %}
+                poster="{{ block.settings.video.preview_image | image_url: width: 600 }}"
+              {% endif %}
+            >
+              {%- for source in block.settings.video.sources -%}
+                <source src="{{ source.url }}" type="{{ source.mime_type }}">
+              {%- endfor -%}
+            </video>
+          {%- elsif has_video_url -%}
+            <video
+              class="guard-ugc__video"
+              data-guard-video
+              {% if should_autoplay %}
+                autoplay
+                data-autoplay="true"
+              {% endif %}
+              loop
+              muted
+              playsinline
+              webkit-playsinline
+              preload="auto"
               {% if block.settings.show_controls %}controls{% endif %}
               {% if has_image %}
                 poster="{{ block.settings.image | image_url: width: 600 }}"
@@ -141,19 +164,20 @@
           "type": "text",
           "id": "video_url",
           "label": "External MP4 URL",
-          "info": "Optional Dropbox/CDN .mp4 if not using Shopify-hosted video"
+          "info": "Must be a direct .mp4 link (Dropbox share links usually fail — use a CDN or Shopify-hosted video)."
         },
         {
           "type": "image_picker",
           "id": "image",
           "label": "Poster / fallback image",
-          "info": "Used as poster for external video, or as the card media when no video is set"
+          "info": "Used as poster for video, or as the card media when no video is set"
         },
         {
           "type": "checkbox",
           "id": "autoplay",
           "label": "Autoplay (muted)",
-          "default": true
+          "default": true,
+          "info": "Browsers only allow autoplay when the video is muted. Low Power Mode on iOS can still block it."
         },
         {
           "type": "checkbox",
