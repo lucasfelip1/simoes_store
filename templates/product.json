@@ -332,6 +332,26 @@
         "heading": "Your grooming, your way.",
         "subheading": "Real routines, real results."
       }
+    },
+    "guard_footer": {
+      "type": "guard-footer",
+      "settings": {
+        "logo_alt": "Guard Labs Australia",
+        "shop_heading": "Shop All",
+        "nitty_heading": "Nitty Gritty",
+        "contact_heading": "Get in touch",
+        "edu_heading": "Education Lab",
+        "email": "info@guardlabs.com.au",
+        "address_line_1": "PO Box 362",
+        "address_line_2": "South Melbourne, VIC 3205",
+        "instagram_url": "https://www.instagram.com/",
+        "tiktok_url": "https://www.tiktok.com/",
+        "facebook_url": "https://www.facebook.com/",
+        "youtube_url": "https://www.youtube.com/",
+        "newsletter_heading": "Join Our Newsletter",
+        "newsletter_text": "Be the first to receive Guard Labs announcements and product updates.",
+        "copyright": "© 2025, Guard Labs powered by Shopify"
+      }
     }
   },
   "order": [
@@ -342,6 +362,7 @@
     "guard_stockists",
     "guard_reviews",
     "guard_complete_the_set",
-    "guard_ugc_videos"
+    "guard_ugc_videos",
+    "guard_footer"
   ]
 }
