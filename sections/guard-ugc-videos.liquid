@@ -83,42 +83,55 @@
             <div class="guard-placeholder" role="img" aria-label="UGC video {{ forloop.index }}"></div>
           {%- endif -%}
         </div>
-
-        {%- if block.settings.show_product_card -%}
-          <div class="guard-ugc__product">
-            <div class="guard-ugc__product-thumb">
-              {%- if block.settings.product != blank and block.settings.product.featured_media -%}
-                {{ block.settings.product.featured_media | image_url: width: 80 | image_tag: loading: 'lazy' }}
-              {%- endif -%}
-            </div>
-            <div class="guard-ugc__product-info">
-              <p class="guard-ugc__product-name">
-                {%- if block.settings.product != blank -%}
-                  {{ block.settings.product.title }}
-                {%- else -%}
-                  PRODUCT NAME
-                {%- endif -%}
-              </p>
-              <p class="guard-ugc__product-price">
-                {%- if block.settings.product != blank -%}
-                  {{ block.settings.product.price | money }}
-                {%- else -%}
-                  $X
-                {%- endif -%}
-              </p>
-            </div>
-            <a
-              class="guard-card__arrow"
-              href="{% if block.settings.product != blank %}{{ block.settings.product.url }}{% else %}#{% endif %}"
-              aria-label="View product"
-            >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </a>
-          </div>
-        {%- endif -%}
       </div>
     {%- endfor -%}
   </div>
+
+  {%- liquid
+    assign ugc_product = blank
+    assign ugc_show_product = false
+    for block in section.blocks
+      if block.settings.show_product_card and ugc_show_product == false
+        assign ugc_product = block.settings.product
+        assign ugc_show_product = true
+      endif
+    endfor
+  -%}
+
+  {%- if ugc_show_product -%}
+    <div class="guard-ugc__product-row">
+      <div class="guard-ugc__product">
+        <div class="guard-ugc__product-thumb">
+          {%- if ugc_product != blank and ugc_product.featured_media -%}
+            {{ ugc_product.featured_media | image_url: width: 80 | image_tag: loading: 'lazy' }}
+          {%- endif -%}
+        </div>
+        <div class="guard-ugc__product-info">
+          <p class="guard-ugc__product-name">
+            {%- if ugc_product != blank -%}
+              {{ ugc_product.title }}
+            {%- else -%}
+              PRODUCT NAME
+            {%- endif -%}
+          </p>
+          <p class="guard-ugc__product-price">
+            {%- if ugc_product != blank -%}
+              {{ ugc_product.price | money }}
+            {%- else -%}
+              $X
+            {%- endif -%}
+          </p>
+        </div>
+        <a
+          class="guard-card__arrow"
+          href="{% if ugc_product != blank %}{{ ugc_product.url }}{% else %}#{% endif %}"
+          aria-label="View product"
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  {%- endif -%}
 
   <div class="guard-ugc__dots" aria-hidden="true">
     {%- for block in section.blocks -%}
@@ -187,13 +200,14 @@
         },
         {
           "type": "header",
-          "content": "Product overlay"
+          "content": "Product card (below videos)"
         },
         {
           "type": "checkbox",
           "id": "show_product_card",
-          "label": "Show product overlay",
-          "default": false
+          "label": "Show product card under videos",
+          "default": false,
+          "info": "Only the first enabled card is shown, centered below the video row."
         },
         {
           "type": "product",
