@@ -124,6 +124,7 @@
       "type": "guard-hero-video",
       "settings": {
         "heading": "Product video",
+        "video": "shopify://files/videos/Elite Pro - 4kPOST.mp4",
         "video_url": "",
         "autoplay": true,
         "loop": true,
