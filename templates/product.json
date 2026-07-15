@@ -244,7 +244,13 @@
       "settings": {
         "rating": "4.9",
         "review_total": "250+",
-        "recommend_text": "99% would recommend this product."
+        "recommend_text": "99% would recommend this product.",
+        "photo_1": "shopify://shop_images/20241204_MartenAscenzo_GuardLabs_Campaign00136463.jpg",
+        "photo_2": "shopify://shop_images/20241204_MartenAscenzo_GuardLabs_Campaign00136495.jpg",
+        "photo_3": "shopify://shop_images/20241204_MartenAscenzo_GuardLabs_Campaign00136532.jpg",
+        "photo_4": "shopify://shop_images/20241204_MartenAscenzo_GuardLabs_Campaign00136578.jpg",
+        "photo_5": "shopify://shop_images/20241204_MartenAscenzo_GuardLabs_Campaign00136703.jpg",
+        "photo_6": "shopify://shop_images/20241204_MartenAscenzo_GuardLabs_Campaign00136682.jpg"
       }
     },
     "guard_complete_the_set": {
