@@ -6,16 +6,60 @@
 
   <div class="guard-ugc__track">
     {%- for block in section.blocks -%}
+      {%- liquid
+        assign has_video = false
+        if block.settings.video != blank
+          assign has_video = true
+        endif
+
+        assign has_video_url = false
+        if block.settings.video_url != blank
+          assign has_video_url = true
+        endif
+
+        assign has_image = false
+        if block.settings.image != blank
+          assign has_image = true
+        endif
+      -%}
+
       <div class="guard-ugc__item" {{ block.shopify_attributes }}>
-        {%- if block.settings.image != blank -%}
-          {{
-            block.settings.image
-            | image_url: width: 600
-            | image_tag: loading: 'lazy', widths: '300, 450, 600', sizes: '240px'
-          }}
-        {%- else -%}
-          <div class="guard-placeholder" role="img" aria-label="UGC video {{ forloop.index }}"></div>
-        {%- endif -%}
+        <div class="guard-ugc__media">
+          {%- if has_video -%}
+            {{
+              block.settings.video
+              | video_tag:
+                image_size: '600x',
+                autoplay: block.settings.autoplay,
+                loop: true,
+                muted: true,
+                controls: block.settings.show_controls,
+                class: 'guard-ugc__video'
+            }}
+          {%- elsif has_video_url -%}
+            <video
+              class="guard-ugc__video"
+              {% if block.settings.autoplay %}autoplay{% endif %}
+              loop
+              muted
+              playsinline
+              {% if block.settings.show_controls %}controls{% endif %}
+              {% if has_image %}
+                poster="{{ block.settings.image | image_url: width: 600 }}"
+              {% endif %}
+            >
+              <source src="{{ block.settings.video_url }}" type="video/mp4">
+            </video>
+          {%- elsif has_image -%}
+            {{
+              block.settings.image
+              | image_url: width: 600
+              | image_tag: loading: 'lazy', widths: '300, 450, 600', sizes: '240px', class: 'guard-ugc__image'
+            }}
+          {%- else -%}
+            <div class="guard-placeholder" role="img" aria-label="UGC video {{ forloop.index }}"></div>
+          {%- endif -%}
+        </div>
 
         {%- if block.settings.show_product_card -%}
           <div class="guard-ugc__product">
@@ -85,9 +129,41 @@
       "name": "Video / image card",
       "settings": [
         {
+          "type": "header",
+          "content": "Media"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Shopify-hosted video"
+        },
+        {
+          "type": "text",
+          "id": "video_url",
+          "label": "External MP4 URL",
+          "info": "Optional Dropbox/CDN .mp4 if not using Shopify-hosted video"
+        },
+        {
           "type": "image_picker",
           "id": "image",
-          "label": "Image"
+          "label": "Poster / fallback image",
+          "info": "Used as poster for external video, or as the card media when no video is set"
+        },
+        {
+          "type": "checkbox",
+          "id": "autoplay",
+          "label": "Autoplay (muted)",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_controls",
+          "label": "Show video controls",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Product overlay"
         },
         {
           "type": "checkbox",
@@ -107,11 +183,11 @@
     {
       "name": "Guard UGC videos",
       "blocks": [
-        { "type": "video_card", "settings": { "show_product_card": true } },
-        { "type": "video_card" },
-        { "type": "video_card" },
-        { "type": "video_card" },
-        { "type": "video_card" }
+        { "type": "video_card", "settings": { "show_product_card": true, "autoplay": true } },
+        { "type": "video_card", "settings": { "autoplay": true } },
+        { "type": "video_card", "settings": { "autoplay": true } },
+        { "type": "video_card", "settings": { "autoplay": true } },
+        { "type": "video_card", "settings": { "autoplay": true } }
       ]
     }
   ]
