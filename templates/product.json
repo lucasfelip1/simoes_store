@@ -257,7 +257,7 @@
       "type": "guard-complete-the-set",
       "settings": {
         "heading": "Complete the Set",
-        "collection": "",
+        "collection": "shaver",
         "products_to_show": 3,
         "show_badge": true
       }
