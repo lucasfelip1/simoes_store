@@ -1,0 +1,45 @@
+<details-modal class="guard-header__search">
+  <details>
+    <summary class="guard-header__icon-btn" aria-haspopup="dialog" aria-label="{{ 'general.search.search' | t }}">
+      <img
+        class="guard-header__icon-glyph"
+        src="{{ 'guard-header-icon-search.svg' | asset_url }}"
+        alt=""
+        width="20"
+        height="20"
+        loading="eager"
+      >
+    </summary>
+    <div class="search-modal modal__content gradient" role="dialog" aria-modal="true" aria-label="{{ 'general.search.search' | t }}">
+      <div class="modal-overlay"></div>
+      <div class="search-modal__content search-modal__content-bottom" tabindex="-1">
+        <search-form class="search-modal__form">
+          <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form">
+            <div class="field">
+              <input
+                class="search__input field__input"
+                id="{{ input_id }}"
+                type="search"
+                name="q"
+                value="{{ search.terms | escape }}"
+                placeholder="{{ 'general.search.search' | t }}"
+              >
+              <label class="field__label" for="{{ input_id }}">{{ 'general.search.search' | t }}</label>
+              <input type="hidden" name="options[prefix]" value="last">
+              <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}">
+                <svg class="icon icon-search" aria-hidden="true" focusable="false">
+                  <use href="#icon-search"></use>
+                </svg>
+              </button>
+            </div>
+          </form>
+        </search-form>
+        <button type="button" class="search-modal__close-button modal__close-button link link--text focus-inset" aria-label="{{ 'accessibility.close' | t }}">
+          <svg class="icon icon-close" aria-hidden="true" focusable="false">
+            <use href="#icon-close"></use>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </details>
+</details-modal>

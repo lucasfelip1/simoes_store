@@ -1,0 +1,29 @@
+{%- liquid
+  assign size = size | default: 'mobile'
+  if size == 'desktop'
+    assign cart_icon = 'guard-header-icon-cart-desktop.svg'
+  else
+    assign cart_icon = 'guard-header-icon-cart-mobile.svg'
+  endif
+-%}
+<a
+  href="{{ routes.cart_url }}"
+  class="guard-header__icon-btn guard-header__icon-btn--asset guard-header__cart"
+  id="{{ bubble_id }}"
+  {% if bubble_id != 'cart-icon-bubble' %}
+    data-guard-cart-proxy
+  {% endif %}
+>
+  <img
+    class="guard-header__icon-img"
+    src="{{ cart_icon | asset_url }}"
+    alt=""
+    width="{% if size == 'desktop' %}40{% else %}32{% endif %}"
+    height="{% if size == 'desktop' %}40{% else %}32{% endif %}"
+    loading="eager"
+  >
+  <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
+  {%- if cart != empty -%}
+    <span class="guard-header__cart-count" aria-hidden="true">{{ cart.item_count }}</span>
+  {%- endif -%}
+</a>

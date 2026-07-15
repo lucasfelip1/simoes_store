@@ -1392,7 +1392,316 @@ body.template-product .guard-section {
   transform: scale(1.2);
 }
 
-/* ---------- Footer dark (product) — hide Dawn footer when Guard footer is used ---------- */
+/* ---------- Guard header — Menu Dark Design (Figma) ---------- */
+.guard-header-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #fff;
+}
+
+.guard-header {
+  width: 100%;
+  background: #fff;
+  --gl-font: 'Montserrat', sans-serif;
+  --gl-font-display: 'Oswald', 'Arial Narrow', sans-serif;
+  font-family: var(--gl-font);
+}
+
+.guard-header__bar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 0.05rem solid rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+}
+
+.guard-header__bar--mobile {
+  padding: 1.6rem;
+  gap: 0.8rem;
+  align-items: flex-end;
+  position: relative;
+  min-height: 6.4rem;
+}
+
+.guard-header__bar--mobile .guard-header__drawer,
+.guard-header__bar--mobile .guard-header__actions {
+  position: relative;
+  z-index: 2;
+}
+
+.guard-header__bar--desktop {
+  display: none;
+  position: relative;
+  padding: 1.6rem 4rem;
+  align-items: flex-end;
+  /* Figma desktop uses a near-invisible glass edge; keep light hairline */
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+@media screen and (min-width: 990px) {
+  .guard-header__bar--mobile {
+    display: none;
+  }
+
+  .guard-header__bar--desktop {
+    display: flex;
+  }
+}
+
+.guard-header__nav {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+}
+
+.guard-header__nav--left {
+  width: 30.1rem;
+  flex-shrink: 0;
+}
+
+.guard-header__nav--right {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 4rem;
+  flex: 1;
+  min-width: 30.1rem;
+}
+
+.guard-header__link {
+  font-family: var(--gl-font-display, 'Oswald', sans-serif);
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  color: #2d2e2d;
+  text-decoration: none;
+  padding: 0.8rem 1.6rem;
+  border-radius: 1rem;
+  white-space: nowrap;
+}
+
+.guard-header__link:hover {
+  color: #224290;
+}
+
+.guard-header__logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #2d2e2d;
+}
+
+.guard-header__logo--mobile {
+  gap: 0.8rem;
+  padding: 0.4rem 0;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 1.6rem;
+  z-index: 1;
+}
+
+.guard-header__logo--desktop {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 1.6rem;
+  width: 9.7rem;
+  height: 6.4rem;
+  z-index: 1;
+}
+
+.guard-header__logo-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 9.7rem;
+  height: 6.4rem;
+}
+
+.guard-header__logo-shield {
+  display: block;
+  width: 2.483rem;
+  height: 2.4rem;
+  object-fit: contain;
+}
+
+.guard-header__logo--desktop .guard-header__logo-shield {
+  width: 3.831rem;
+  height: 3.747rem;
+}
+
+.guard-header__logo-wordmark {
+  display: block;
+  width: 9.194rem;
+  height: 1.6rem;
+  object-fit: contain;
+}
+
+.guard-header__logo--desktop .guard-header__logo-wordmark {
+  width: 9.7rem;
+  height: 1.708rem;
+}
+
+.guard-header__logo-img {
+  display: block;
+  max-height: 4.8rem;
+  width: auto;
+}
+
+.guard-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-shrink: 0;
+}
+
+.guard-header__icon-btn,
+.guard-header__menu-summary {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0.5rem;
+  background: #d9e3fd;
+  color: #050f2c;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  list-style: none;
+  overflow: hidden;
+}
+
+.guard-header__icon-btn--asset {
+  background: transparent;
+  padding: 0;
+}
+
+.guard-header__icon-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.guard-header__icon-glyph {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+}
+
+.guard-header__menu-summary::-webkit-details-marker {
+  display: none;
+}
+
+@media screen and (min-width: 990px) {
+  .guard-header__icon-btn {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1rem;
+  }
+}
+
+.guard-header__icon-btn:hover {
+  filter: brightness(0.97);
+}
+
+.guard-header__icon-btn:not(.guard-header__icon-btn--asset):hover {
+  background: #c5d4fb;
+}
+
+.guard-header__hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
+}
+
+.guard-header__hamburger span {
+  display: block;
+  width: 2.19rem;
+  height: 0.1rem;
+  background: #050f2c;
+  border-radius: 1px;
+}
+
+.guard-header__menu-close {
+  display: none;
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.guard-header__menu-close .icon {
+  width: 100%;
+  height: 100%;
+}
+
+.menu-drawer-container[open] > .guard-header__menu-summary .guard-header__hamburger {
+  display: none;
+}
+
+.menu-drawer-container[open] > .guard-header__menu-summary .guard-header__menu-close {
+  display: block;
+}
+
+.guard-header__drawer {
+  display: block;
+}
+
+.guard-header__cart-count {
+  position: absolute;
+  top: -0.2rem;
+  right: -0.2rem;
+  min-width: 1.6rem;
+  height: 1.6rem;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  background: #224290;
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.6rem;
+  text-align: center;
+  font-weight: 600;
+  z-index: 1;
+}
+
+.guard-header__search details {
+  position: relative;
+}
+
+.guard-header__search summary {
+  list-style: none;
+}
+
+.guard-header__search summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Equal-width side columns so absolute logo stays visually centered */
+@media screen and (min-width: 990px) {
+  .guard-header__nav--left,
+  .guard-header__nav--right {
+    width: calc((100% - 9.7rem) / 2);
+    min-width: 0;
+    flex: 0 0 calc((100% - 9.7rem) / 2);
+  }
+}
 body.template-product .shopify-section-group-footer-group,
 body.template-product .footer {
   display: none !important;

@@ -1,0 +1,285 @@
+<link rel="stylesheet" href="{{ 'component-list-menu.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-search.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-menu-drawer.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-cart-notification.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
+{{ 'guard-labs-pdp.css' | asset_url | stylesheet_tag }}
+{%- if settings.predictive_search_enabled -%}
+  <link rel="stylesheet" href="{{ 'component-price.css' | asset_url }}" media="print" onload="this.media='all'">
+{%- endif -%}
+{%- if settings.cart_type == 'drawer' -%}
+  {{ 'component-cart-drawer.css' | asset_url | stylesheet_tag }}
+  {{ 'component-cart.css' | asset_url | stylesheet_tag }}
+  {{ 'component-totals.css' | asset_url | stylesheet_tag }}
+  {{ 'component-price.css' | asset_url | stylesheet_tag }}
+  {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+<script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'cart-notification.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
+{%- if settings.cart_type == 'drawer' -%}
+  <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+  <symbol id="icon-search" viewBox="0 0 18 19" fill="none">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M11.03 11.68A5.784 5.784 0 112.85 3.5a5.784 5.784 0 018.18 8.18zm.26 1.12a6.78 6.78 0 11.72-.7l5.4 5.4a.5.5 0 11-.71.7l-5.41-5.4z" fill="currentColor"/>
+  </symbol>
+  <symbol id="icon-close" fill="none" viewBox="0 0 18 17">
+    <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor"/>
+  </symbol>
+</svg>
+
+{%- liquid
+  assign shop_label = section.settings.shop_label | default: 'Shop +'
+  assign about_label = section.settings.about_label | default: 'About'
+  assign education_label = section.settings.education_label | default: 'Education Lab'
+-%}
+
+<div class="guard-header-wrapper section-header">
+  <header class="guard-header" data-figma="Menu Dark Design">
+    {%- comment -%} Mobile bar {%- endcomment -%}
+    <div class="guard-header__bar guard-header__bar--mobile">
+      <header-drawer data-breakpoint="tablet" class="guard-header__drawer">
+        <details id="Details-menu-drawer-container" class="menu-drawer-container">
+          <summary class="guard-header__icon-btn guard-header__menu-summary" aria-label="{{ 'sections.header.menu' | t }}">
+            <span class="guard-header__hamburger" aria-hidden="true">
+              <span></span>
+              <span></span>
+            </span>
+            <span class="guard-header__menu-close" aria-hidden="true">
+              {% render 'icon-close' %}
+            </span>
+          </summary>
+          <div id="menu-drawer" class="gradient menu-drawer motion-reduce" tabindex="-1">
+            <div class="menu-drawer__inner-container">
+              <div class="menu-drawer__navigation-container">
+                <nav class="menu-drawer__navigation">
+                  <ul class="menu-drawer__menu list-menu" role="list">
+                    {%- if section.settings.menu != blank -%}
+                      {%- for link in section.settings.menu.links -%}
+                        <li>
+                          <a
+                            href="{{ link.url }}"
+                            class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
+                          >
+                            {{ link.title | escape }}
+                          </a>
+                        </li>
+                      {%- endfor -%}
+                    {%- else -%}
+                      <li>
+                        <a href="{{ section.settings.shop_link | default: routes.all_products_collection_url }}" class="menu-drawer__menu-item list-menu__item link link--text focus-inset">
+                          {{ shop_label | remove: '+' | strip }}
+                        </a>
+                      </li>
+                      <li>
+                        <a href="{{ section.settings.about_link | default: '#' }}" class="menu-drawer__menu-item list-menu__item link link--text focus-inset">
+                          {{ about_label }}
+                        </a>
+                      </li>
+                      <li>
+                        <a href="{{ section.settings.education_link | default: '#' }}" class="menu-drawer__menu-item list-menu__item link link--text focus-inset">
+                          {{ education_label }}
+                        </a>
+                      </li>
+                    {%- endif -%}
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </details>
+      </header-drawer>
+
+      <a href="{{ routes.root_url }}" class="guard-header__logo guard-header__logo--mobile">
+        {%- if section.settings.logo != blank -%}
+          {{
+            section.settings.logo
+            | image_url: width: 240
+            | image_tag: class: 'guard-header__logo-img', loading: 'eager', alt: section.settings.logo_alt
+          }}
+        {%- else -%}
+          <img
+            class="guard-header__logo-shield"
+            src="{{ 'guard-header-logo-shield-mobile.svg' | asset_url }}"
+            alt=""
+            width="25"
+            height="24"
+            loading="eager"
+          >
+          <img
+            class="guard-header__logo-wordmark"
+            src="{{ 'guard-header-logo-wordmark-mobile.svg' | asset_url }}"
+            alt="{{ section.settings.logo_alt | default: 'Guard Labs' | escape }}"
+            width="92"
+            height="16"
+            loading="eager"
+          >
+        {%- endif -%}
+      </a>
+
+      <div class="guard-header__actions">
+        {% render 'guard-header-search', input_id: 'GuardSearch-Mobile' %}
+        {% render 'guard-header-cart', bubble_id: 'cart-icon-bubble', size: 'mobile' %}
+      </div>
+    </div>
+
+    {%- comment -%} Desktop bar {%- endcomment -%}
+    <div class="guard-header__bar guard-header__bar--desktop">
+      <nav class="guard-header__nav guard-header__nav--left" aria-label="Primary">
+        <a class="guard-header__link" href="{{ section.settings.shop_link | default: routes.all_products_collection_url }}">
+          {{ shop_label }}
+        </a>
+        <a class="guard-header__link" href="{{ section.settings.about_link | default: '#' }}">
+          {{ about_label }}
+        </a>
+      </nav>
+
+      <a href="{{ routes.root_url }}" class="guard-header__logo guard-header__logo--desktop">
+        {%- if section.settings.logo != blank -%}
+          {{
+            section.settings.logo
+            | image_url: width: 200
+            | image_tag: class: 'guard-header__logo-img', loading: 'eager', alt: section.settings.logo_alt
+          }}
+        {%- else -%}
+          <span class="guard-header__logo-stack">
+            <img
+              class="guard-header__logo-shield"
+              src="{{ 'guard-header-logo-shield.svg' | asset_url }}"
+              alt=""
+              width="38"
+              height="37"
+              loading="eager"
+            >
+            <img
+              class="guard-header__logo-wordmark"
+              src="{{ 'guard-header-logo-wordmark.svg' | asset_url }}"
+              alt="{{ section.settings.logo_alt | default: 'Guard Labs' | escape }}"
+              width="97"
+              height="17"
+              loading="eager"
+            >
+          </span>
+        {%- endif -%}
+      </a>
+
+      <div class="guard-header__nav guard-header__nav--right">
+        <a class="guard-header__link" href="{{ section.settings.education_link | default: '#' }}">
+          {{ education_label }}
+        </a>
+
+        <div class="guard-header__actions">
+          {% render 'guard-header-search', input_id: 'GuardSearch-Desktop' %}
+
+          <a
+            href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+            class="guard-header__icon-btn guard-header__icon-btn--asset"
+            aria-label="{% if customer %}{{ 'customer.account_fallback' | t }}{% else %}{{ 'customer.log_in' | t }}{% endif %}"
+          >
+            <img
+              class="guard-header__icon-img"
+              src="{{ 'guard-header-icon-profile.svg' | asset_url }}"
+              alt=""
+              width="40"
+              height="40"
+              loading="eager"
+            >
+          </a>
+
+          {% render 'guard-header-cart', bubble_id: 'cart-icon-bubble-desktop', size: 'desktop' %}
+        </div>
+      </div>
+    </div>
+  </header>
+</div>
+
+{%- if settings.cart_type == 'notification' -%}
+  {%- render 'cart-notification', color_scheme: 'background-1' -%}
+{%- endif -%}
+
+<script>
+  document.querySelectorAll('[data-guard-cart-proxy]').forEach(function (el) {
+    el.addEventListener('click', function (event) {
+      var primary = document.getElementById('cart-icon-bubble');
+      if (!primary) return;
+      // Desktop proxy → open the same cart drawer handler bound to #cart-icon-bubble
+      if (window.innerWidth >= 990) {
+        event.preventDefault();
+        primary.click();
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Guard header",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Menu Dark Design (Figma)"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo override (optional)"
+    },
+    {
+      "type": "text",
+      "id": "logo_alt",
+      "label": "Logo alt text",
+      "default": "Guard Labs"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Mobile drawer menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": "Desktop links"
+    },
+    {
+      "type": "text",
+      "id": "shop_label",
+      "label": "Shop label",
+      "default": "Shop +"
+    },
+    {
+      "type": "url",
+      "id": "shop_link",
+      "label": "Shop link"
+    },
+    {
+      "type": "text",
+      "id": "about_label",
+      "label": "About label",
+      "default": "About"
+    },
+    {
+      "type": "url",
+      "id": "about_link",
+      "label": "About link"
+    },
+    {
+      "type": "text",
+      "id": "education_label",
+      "label": "Education Lab label",
+      "default": "Education Lab"
+    },
+    {
+      "type": "url",
+      "id": "education_link",
+      "label": "Education Lab link"
+    }
+  ]
+}
+{% endschema %}
