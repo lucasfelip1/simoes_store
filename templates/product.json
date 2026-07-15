@@ -272,7 +272,7 @@
             "video_url": "",
             "autoplay": true,
             "show_controls": false,
-            "show_product_card": true,
+            "show_product_card": false,
             "product": "elite-pro-wet-dry-rotary-shaver"
           }
         },
