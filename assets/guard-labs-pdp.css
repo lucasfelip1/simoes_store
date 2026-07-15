@@ -671,23 +671,45 @@ body.template-product .guard-section {
   border-radius: 999px;
 }
 
-/* ---------- Hero video ---------- */
+/* ---------- Hero video (Frame 427318198 — above Shop) ---------- */
 .guard-hero-video {
-  background: var(--gl-black);
+  background: var(--gl-black, #000);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.guard-hero-video__frame {
+  position: relative;
+  width: 100%;
+  /* Mobile Figma: 390 × 219.375 */
+  aspect-ratio: 390 / 219.375;
+  overflow: hidden;
+  background: #000;
+}
+
+@media screen and (min-width: 750px) {
+  .guard-hero-video__frame {
+    /* Desktop Figma: 1440 × 650 */
+    aspect-ratio: 1440 / 650;
+    max-height: 65rem;
+  }
 }
 
 .guard-hero-video__media {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  aspect-ratio: 16 / 7;
-  min-height: 24rem;
-  max-height: 65rem;
+  height: 100%;
   object-fit: cover;
   display: block;
+  border: 0;
 }
 
-.guard-hero-video__media.guard-placeholder {
-  aspect-ratio: 16 / 7;
-  min-height: 24rem;
+.guard-hero-video__media.guard-placeholder,
+.guard-hero-video__frame .guard-placeholder {
+  aspect-ratio: unset;
+  min-height: 0;
 }
 
 /* ---------- Why it works / How to use checkerboard ---------- */

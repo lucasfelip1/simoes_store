@@ -1,59 +1,88 @@
 {{ 'guard-labs-pdp.css' | asset_url | stylesheet_tag }}
 
-{%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
-  }
-{%- endstyle -%}
+{%- liquid
+  assign has_shopify_video = false
+  if section.settings.video != blank
+    assign has_shopify_video = true
+  endif
 
-<section class="guard-section guard-hero-video section-{{ section.id }}-padding" id="GuardHeroVideo-{{ section.id }}">
-  {%- if section.settings.video != blank -%}
-    {{
-      section.settings.video
-      | video_tag:
-        image_size: '1920x',
-        autoplay: section.settings.autoplay,
-        loop: section.settings.loop,
-        muted: true,
-        controls: true,
-        class: 'guard-hero-video__media'
-    }}
-  {%- elsif section.settings.video_url != blank -%}
-    <video
-      class="guard-hero-video__media"
-      {% if section.settings.autoplay %}autoplay{% endif %}
-      {% if section.settings.loop %}loop{% endif %}
-      muted
-      playsinline
-      controls
-      poster="{% if section.settings.poster != blank %}{{ section.settings.poster | image_url: width: 1920 }}{% endif %}"
-    >
-      <source src="{{ section.settings.video_url }}" type="video/mp4">
-    </video>
-  {%- elsif section.settings.poster != blank -%}
-    {{
-      section.settings.poster
-      | image_url: width: 1920
-      | image_tag: class: 'guard-hero-video__media', loading: 'lazy', widths: '750, 1100, 1500, 1920'
-    }}
-  {%- else -%}
-    <div class="guard-hero-video__media guard-placeholder guard-placeholder--video" role="img" aria-label="{{ section.settings.heading | escape }}"></div>
-  {%- endif -%}
+  assign has_external_video = false
+  if section.settings.video_url != blank
+    assign has_external_video = true
+  endif
+
+  assign has_poster = false
+  if section.settings.poster != blank
+    assign has_poster = true
+  endif
+-%}
+
+<section
+  class="guard-section guard-hero-video"
+  id="GuardHeroVideo-{{ section.id }}"
+  data-frame="427318198"
+>
+  <div class="guard-hero-video__frame">
+    {%- if has_shopify_video -%}
+      {{
+        section.settings.video
+        | video_tag:
+          image_size: '1920x',
+          autoplay: section.settings.autoplay,
+          loop: section.settings.loop,
+          muted: true,
+          controls: section.settings.show_controls,
+          class: 'guard-hero-video__media'
+      }}
+    {%- elsif has_external_video -%}
+      <video
+        class="guard-hero-video__media"
+        {% if section.settings.autoplay %}autoplay{% endif %}
+        {% if section.settings.loop %}loop{% endif %}
+        muted
+        playsinline
+        {% if section.settings.show_controls %}controls{% endif %}
+        {% if has_poster %}
+          poster="{{ section.settings.poster | image_url: width: 1920 }}"
+        {% endif %}
+      >
+        <source src="{{ section.settings.video_url }}" type="video/mp4">
+      </video>
+    {%- elsif has_poster -%}
+      {{
+        section.settings.poster
+        | image_url: width: 1920
+        | image_tag:
+          class: 'guard-hero-video__media',
+          loading: 'lazy',
+          widths: '750, 1100, 1500, 1920',
+          sizes: '100vw',
+          alt: section.settings.heading
+      }}
+    {%- else -%}
+      <div
+        class="guard-hero-video__media guard-placeholder"
+        role="img"
+        aria-label="{{ section.settings.heading | escape }}"
+      ></div>
+    {%- endif -%}
+  </div>
 </section>
 
 {% schema %}
 {
-  "name": "Guard hero video",
+  "name": "Guard product video",
   "tag": "section",
   "class": "section",
   "settings": [
+    {
+      "type": "header",
+      "content": "Frame 427318198 — above Shop"
+    },
+    {
+      "type": "paragraph",
+      "content": "Full-bleed video above Why It Works / How to Use. Annotation: Electricals have a video."
+    },
     {
       "type": "text",
       "id": "heading",
@@ -69,7 +98,7 @@
       "type": "text",
       "id": "video_url",
       "label": "External MP4 URL",
-      "info": "Optional Dropbox/CDN mp4 link"
+      "info": "Optional Dropbox/CDN .mp4 link if not using Shopify-hosted video"
     },
     {
       "type": "image_picker",
@@ -79,7 +108,7 @@
     {
       "type": "checkbox",
       "id": "autoplay",
-      "label": "Autoplay",
+      "label": "Autoplay (muted)",
       "default": true
     },
     {
@@ -89,29 +118,15 @@
       "default": true
     },
     {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding top",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding bottom",
-      "default": 0
+      "type": "checkbox",
+      "id": "show_controls",
+      "label": "Show video controls",
+      "default": true
     }
   ],
   "presets": [
     {
-      "name": "Guard hero video"
+      "name": "Guard product video"
     }
   ]
 }

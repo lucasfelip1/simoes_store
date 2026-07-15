@@ -127,8 +127,7 @@
         "video_url": "",
         "autoplay": true,
         "loop": true,
-        "padding_top": 0,
-        "padding_bottom": 0
+        "show_controls": true
       }
     },
     "guard_why_it_works": {
