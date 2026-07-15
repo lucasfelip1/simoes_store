@@ -268,13 +268,21 @@
         "ugc_1": {
           "type": "video_card",
           "settings": {
+            "video": "shopify://files/videos/Jeremy(DAD)-EliteProVideo.mp4",
+            "video_url": "",
+            "autoplay": true,
+            "show_controls": false,
             "show_product_card": true,
-            "product": ""
+            "product": "elite-pro-wet-dry-rotary-shaver"
           }
         },
         "ugc_2": {
           "type": "video_card",
           "settings": {
+            "video": "shopify://files/videos/RazorElitePro.mp4",
+            "video_url": "",
+            "autoplay": true,
+            "show_controls": false,
             "show_product_card": false,
             "product": ""
           }
@@ -282,6 +290,10 @@
         "ugc_3": {
           "type": "video_card",
           "settings": {
+            "video": "shopify://files/videos/Oliver-ElitePro-Vid1(ad).mov",
+            "video_url": "",
+            "autoplay": true,
+            "show_controls": false,
             "show_product_card": false,
             "product": ""
           }
@@ -289,6 +301,10 @@
         "ugc_4": {
           "type": "video_card",
           "settings": {
+            "video": "shopify://files/videos/eliteproshortSTORY.mp4",
+            "video_url": "",
+            "autoplay": true,
+            "show_controls": false,
             "show_product_card": false,
             "product": ""
           }
@@ -296,6 +312,10 @@
         "ugc_5": {
           "type": "video_card",
           "settings": {
+            "video": "shopify://files/videos/ElitePro-HowToVideo.mp4",
+            "video_url": "",
+            "autoplay": true,
+            "show_controls": false,
             "show_product_card": false,
             "product": ""
           }
