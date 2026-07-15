@@ -47,9 +47,27 @@
           </li>
         </ul>
       </div>
-      <div class="guard-reviews__photos">
+      <div class="guard-reviews__photos" aria-label="Review photos">
         {%- for i in (1..6) -%}
-          <div class="guard-placeholder" role="img" aria-label="Review photo {{ i }}"></div>
+          {%- assign photo_key = 'photo_' | append: i -%}
+          {%- assign photo = section.settings[photo_key] -%}
+          <div class="guard-reviews__photo">
+            {%- if photo != blank -%}
+              {%- assign photo_alt = photo.alt | default: 'Review photo' -%}
+              {{
+                photo
+                | image_url: width: 360
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '120, 240, 360',
+                  sizes: '120px',
+                  class: 'guard-reviews__photo-img',
+                  alt: photo_alt
+              }}
+            {%- else -%}
+              <div class="guard-placeholder guard-reviews__photo-placeholder" role="img" aria-label="Review photo {{ i }}"></div>
+            {%- endif -%}
+          </div>
         {%- endfor -%}
       </div>
     </div>
@@ -124,6 +142,44 @@
       "id": "recommend_text",
       "label": "Recommend text",
       "default": "99% would recommend this product."
+    },
+    {
+      "type": "header",
+      "content": "Review photo grid (Frame 180)"
+    },
+    {
+      "type": "paragraph",
+      "content": "6 images shown next to the rating summary (3×2 grid). Leave empty to show placeholders."
+    },
+    {
+      "type": "image_picker",
+      "id": "photo_1",
+      "label": "Photo 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "photo_2",
+      "label": "Photo 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "photo_3",
+      "label": "Photo 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "photo_4",
+      "label": "Photo 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "photo_5",
+      "label": "Photo 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "photo_6",
+      "label": "Photo 6"
     }
   ],
   "blocks": [
