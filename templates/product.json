@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -115,6 +124,7 @@
       "type": "guard-hero-video",
       "settings": {
         "heading": "Product video",
+        "video_url": "",
         "autoplay": true,
         "loop": true,
         "padding_top": 0,
@@ -125,13 +135,15 @@
       "type": "guard-why-it-works",
       "settings": {
         "heading": "Why It Works",
-        "text": "<p>Our <strong>Ultra Close Tech™</strong> blades are designed to cut closer while reducing tug and pull — meaning smoother skin, fewer bumps. The <strong>pivoting head</strong> adjusts to your face shape, and the Guard Labs <strong>shaving oil</strong> preps your skin so every glide feels effortless.</p>"
+        "text": "<p>Our <strong>Ultra Close Tech™</strong> blades are designed to cut closer while reducing tug and pull — meaning smoother skin, fewer bumps. The <strong>pivoting head</strong> adjusts to your face shape, and the Guard Labs <strong>shaving oil</strong> preps your skin so every glide feels effortless.</p>",
+        "image": "shopify://shop_images/image00001.jpg"
       }
     },
     "guard_how_to_use": {
       "type": "guard-how-to-use",
       "settings": {
         "heading": "How to Use",
+        "image": "shopify://shop_images/EliteProhead.png",
         "step_1": "Prep with Face Guard Pre-Shave Oil for best results.",
         "step_2": "Use wet or dry — whatever suits your routine.",
         "step_3": "Rinse under water after every use (yes, it's waterproof).",
@@ -146,7 +158,8 @@
           "settings": {
             "name": "Shaver Shop Melbourne Lonsdale Street",
             "address": "356 Lonsdale St, Melbourne VIC 3000",
-            "distance": "0.5km away"
+            "distance": "0.5km away",
+            "directions_url": ""
           }
         },
         "stockist_2": {
@@ -154,7 +167,8 @@
           "settings": {
             "name": "Shaver Shop DFO South Wharf",
             "address": "DFO, b100/20 Convention Centre Pl, South Wharf VIC 3006",
-            "distance": "2km away"
+            "distance": "2km away",
+            "directions_url": ""
           }
         },
         "stockist_3": {
@@ -162,15 +176,21 @@
           "settings": {
             "name": "Shaver Shop Chapel St",
             "address": "391 Chapel St, South Yarra VIC 3141",
-            "distance": "3km away"
+            "distance": "3km away",
+            "directions_url": ""
           }
         }
       },
-      "block_order": ["stockist_1", "stockist_2", "stockist_3"],
+      "block_order": [
+        "stockist_1",
+        "stockist_2",
+        "stockist_3"
+      ],
       "settings": {
         "show_stockists": true,
         "heading": "Find a Stockist",
-        "list_heading": "Our Stockists"
+        "list_heading": "Our Stockists",
+        "map_image": "shopify://shop_images/maps.png"
       }
     },
     "guard_reviews": {
@@ -216,7 +236,11 @@
           }
         }
       },
-      "block_order": ["review_1", "review_2", "review_3"],
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
       "settings": {
         "rating": "4.9",
         "review_total": "250+",
@@ -227,6 +251,7 @@
       "type": "guard-complete-the-set",
       "settings": {
         "heading": "Complete the Set",
+        "collection": "",
         "products_to_show": 3,
         "show_badge": true
       }
@@ -237,35 +262,46 @@
         "ugc_1": {
           "type": "video_card",
           "settings": {
-            "show_product_card": true
+            "show_product_card": true,
+            "product": ""
           }
         },
         "ugc_2": {
           "type": "video_card",
           "settings": {
-            "show_product_card": false
+            "show_product_card": false,
+            "product": ""
           }
         },
         "ugc_3": {
           "type": "video_card",
           "settings": {
-            "show_product_card": false
+            "show_product_card": false,
+            "product": ""
           }
         },
         "ugc_4": {
           "type": "video_card",
           "settings": {
-            "show_product_card": false
+            "show_product_card": false,
+            "product": ""
           }
         },
         "ugc_5": {
           "type": "video_card",
           "settings": {
-            "show_product_card": false
+            "show_product_card": false,
+            "product": ""
           }
         }
       },
-      "block_order": ["ugc_1", "ugc_2", "ugc_3", "ugc_4", "ugc_5"],
+      "block_order": [
+        "ugc_1",
+        "ugc_2",
+        "ugc_3",
+        "ugc_4",
+        "ugc_5"
+      ],
       "settings": {
         "heading": "Your grooming, your way.",
         "subheading": "Real routines, real results."
